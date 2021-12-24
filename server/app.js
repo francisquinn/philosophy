@@ -5,17 +5,22 @@ const topicRoutes = require("./routes/topicRoutes");
 
 require("dotenv").config();
 const app = express();
-app.use(cors({
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    optionsSuccessStatus: 200,
+  })
+);
 
 mongoose
   .connect(process.env.DB_CONNECT, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => app.listen(process.env.PORT))
+  .then(() => {
+    console.log(`Server listening on port ${process.env.PORT }`);
+    app.listen(process.env.PORT);
+  })
   .catch((error) => console.log("error: " + error));
 
 app.get("/api", (req, res) => {

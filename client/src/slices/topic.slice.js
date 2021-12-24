@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import TopicDataService from "../service/topic.service";
 
 const initialState = {
-  topics: [],
+  values: [],
   status: "idle",
-  error: null
+  error: null,
 };
 
 export const retrieveTopics = createAsyncThunk("topics/retrieve", async () => {
@@ -32,7 +32,7 @@ const topicSlice = createSlice({
     },
     [createTopic.fulfilled]: (state, action) => {
       state.status = "idle";
-      state.topics.push(action.payload);
+      state.values.push(action.payload);
     },
   },
 });
