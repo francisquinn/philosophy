@@ -26,9 +26,9 @@ function App() {
               <Routes>
                 <Route path="/about" element={<About />} />
                 <Route path="/topics" element={<Topics />} />
-                <Route path="/topics/:topic_id" element={<TopicDetails />} />
-                <Route path="/topics/:topic_id/discussions" element={<Discussions />} />
-                <Route path="/topics/:topic_id/discussions/:discussion_id" element={<Discussions />} />
+                <Route path="/topics/:topic_url" element={<TopicDetails />} />
+                <Route path="/topics/:topic_url/discussions" element={<Discussions />} />
+                <Route path="/topics/:topic_url/discussions/:discussion_id" element={<Discussions />} />
                 <Route path="/" element={<Home />} />
               </Routes>
             </div>

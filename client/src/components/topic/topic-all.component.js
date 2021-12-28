@@ -1,36 +1,25 @@
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { retrieveTopics } from "../../slices/topic.slice";
+import useDispatchFetch from "../../hooks/useDispatchFetch";
 
 const TopicsList = () => {
-  const [topics, setTopics] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  //const topics = useSelector((state) => state.topics.values);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    setIsLoading(true);
-    dispatch(retrieveTopics())
-      .then((res) => {
-        setIsLoading(false);
-        setTopics(res.payload);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dispatch]);
+  const {isLoading, isError} = useDispatchFetch(retrieveTopics())
+  const topics = useSelector((state) => state.topics);
 
   return (
     <div>
       {isLoading && <h1>Loading...</h1>}
-      {topics.map((topic, index) => (
-        <Link to={`/topics/${topic._id}`} key={index}>
-          <div className="topic-container">
-            <h2>{topic.title}</h2>
-            <em>{topic.description}</em>
-          </div>
-        </Link>
-      ))}
+      {isError && <h1>Error...</h1>}
+      {topics &&
+        topics.map((topic, index) => (
+          <Link to={`/topics/${topic.url}`} key={index}>
+            <div className="topic-container">
+              <h2>{topic.title}</h2>
+              <em>{topic.description}</em>
+            </div>
+          </Link>
+        ))}
     </div>
   );
 };

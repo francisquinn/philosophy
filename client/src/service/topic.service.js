@@ -1,13 +1,17 @@
 import http from "./http-common";
 
 class TopicDataService {
-    getALLTopics() {
-        return http.get("/topics");
-    }
+  getALLTopics() {
+    return http.get("/topics");
+  }
 
-    create(data) {
-        return http.post("/topics", data);
-    }
+  getTopicByUrl(url) {
+    return http.get("/topics", url);
+  }
+
+  create(data) {
+    return http.post("/topics", data);
+  }
 }
 
 export default new TopicDataService();
