@@ -13,9 +13,20 @@
 
 .navbar {
   background-color: lightgreen;
+  z-index: 1;
 }
 
 /* Topics */
 #topic-container {
   border: 2px solid grey;
+}
+
+/* Login/Register */
+.login-window {
+  position: absolute;
+  z-index: 9;
+  background-color: lightcoral;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

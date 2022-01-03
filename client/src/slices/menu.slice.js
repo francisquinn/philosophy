@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: false,
+  toggle: false,
+  items: [
+    { id: 1, route: "/", text: "Home" },
+    { id: 2, route: "/about", text: "About" },
+    { id: 3, route: "/topics", text: "Topics" },
+  ],
 };
 
 export const menuSlice = createSlice({
@@ -9,10 +14,13 @@ export const menuSlice = createSlice({
   initialState,
   reducers: {
     toggle: (state) => {
-      state.value = !state.value;
+      state.toggle = !state.toggle;
     },
-  },
+    getMenuItems: (state) => {
+      return state.items;
+    }
+  }
 });
 
-export const { toggle } = menuSlice.actions
+export const { toggle } = menuSlice.actions;
 export default menuSlice.reducer;

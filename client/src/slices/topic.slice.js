@@ -31,6 +31,9 @@ const topicSlice = createSlice({
     [retrieveTopics.fulfilled]: (state, action) => {
       return [...action.payload];
     },
+    [retrieveTopicByUrl.fulfilled]: (state, action) => {
+      return action.payload;
+    },
     [createTopic.fulfilled]: (state, action) => {
       state.push(action.payload);
     },

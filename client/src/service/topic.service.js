@@ -6,7 +6,7 @@ class TopicDataService {
   }
 
   getTopicByUrl(url) {
-    return http.get("/topics", url);
+    return http.get(`/topics/${url}`);
   }
 
   create(data) {

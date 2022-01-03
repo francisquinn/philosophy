@@ -1,5 +1,12 @@
+import DiscussionList from "../../components/discussion/discussion-all.component";
+
 const Discussions = () => {
-    return <h1>discussions</h1>
-}
+  return (
+    <div>
+      <h1>discussions</h1>
+      <DiscussionList />
+    </div>
+  );
+};
 
 export default Discussions;

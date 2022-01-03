@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { retrieveTopics } from "../../slices/topic.slice";
-import useDispatchFetch from "../../hooks/useDispatchFetch";
+import useDispatchRequest from "../../hooks/useDispatchRequest";
 
 const TopicsList = () => {
-  const {isLoading, isError} = useDispatchFetch(retrieveTopics())
-  const topics = useSelector((state) => state.topics);
-
+  const {
+    data: topics,
+    isLoading,
+    isError,
+  } = useDispatchRequest(retrieveTopics());
   return (
     <div>
       {isLoading && <h1>Loading...</h1>}

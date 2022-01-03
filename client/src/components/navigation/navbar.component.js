@@ -25,11 +25,13 @@ const NavBar = () => {
             path={mdiMenu}
             size={1.5}
           />
-          {menu.value && (
+          {menu.toggle && (
             <div className="nav-menu-mobile">
-              <Link to="/"  onClick={() => dispatch(toggle())}>Home</Link>
-              <Link to="/about"  onClick={() => dispatch(toggle())}>About</Link>
-              <Link to="/topics"  onClick={() => dispatch(toggle())}>About</Link>
+              {menu.items.map((item) => (
+                <div className="menu-item-mobile" key={item.id}>
+                  <Link to={item.route}  onClick={() => dispatch(toggle())}>{item.text}</Link>
+                </div>
+              ))}
             </div>
           
           )}
