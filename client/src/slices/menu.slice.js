@@ -13,7 +13,7 @@ export const menuSlice = createSlice({
   name: "menu",
   initialState,
   reducers: {
-    toggle: (state) => {
+    toggleMenu: (state) => {
       state.toggle = !state.toggle;
     },
     getMenuItems: (state) => {
@@ -22,5 +22,5 @@ export const menuSlice = createSlice({
   }
 });
 
-export const { toggle } = menuSlice.actions;
+export const { toggleMenu } = menuSlice.actions;
 export default menuSlice.reducer;

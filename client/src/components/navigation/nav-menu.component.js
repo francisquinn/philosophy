@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleLoginWindow } from "../../slices/login.slice";
+import { togglePopUpWindow } from "../../slices/popup.slice";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const NavMenu = () => {
@@ -18,7 +18,10 @@ const NavMenu = () => {
             </div>
           ))}
           <div className="login-item">
-            <button onClick={() => dispatch(toggleLoginWindow())}>Login/register</button>
+            <button onClick={() => dispatch(togglePopUpWindow({ component: "login" }))}>Login</button>
+          </div>
+          <div className="signup-item">
+            <button onClick={() => dispatch(togglePopUpWindow({ component: "sign up" }))}>Register</button>
           </div>
         </div>
       )}

@@ -9,14 +9,14 @@ import DiscussionDetails from "./pages/discussion/discussion.details";
 /** Components */
 import NavMenu from "./components/navigation/nav-menu.component";
 import NavBar from "./components/navigation/navbar.component";
-import LoginWindow from "./components/login/login-popup.component";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import PopUpWindow from "./components/utils/popup.component";
 
 function App() {
   return (
     <Router>
-      <div className="login-container">
-        <LoginWindow />
+      <div className="popup-container">
+        <PopUpWindow />
       </div>
       <div className="App container" id="app-body">
         <div className="row">
