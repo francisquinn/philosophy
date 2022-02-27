@@ -3,6 +3,8 @@ import DiscussionDataService from "../service/discussion.service";
 
 const initialState = {
   discussions: [],
+  discussion: {},
+  topic: null,
   isLoading: true
 };
 
@@ -28,15 +30,37 @@ export const retrieveDiscussionById = createAsyncThunk(
 const discussionSlice = createSlice({
   name: "discussion",
   initialState,
+  reducers : {
+    setCurrentDiscussion: (state, action) => {
+      state.discussion = action.payload;
+    },
+    setCurrentTopic: (state, action) => {
+      state.topic = action.payload;
+    }
+  },
   extraReducers: {
+    [retrieveTopicDiscussions.pending]: (state, action) => {
+      state.isLoading = true;
+      state.discussions = [];
+    },
     [retrieveTopicDiscussions.fulfilled]: (state, action) => {
       state.isLoading = false;
       for (const discussion of action.payload) {
         state.discussions.push(discussion);
       }
     },
+    [retrieveDiscussionById.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [retrieveDiscussionById.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.discussion = action.payload;
+    },
   },
 });
+
+// export reducers
+export const { setCurrentDiscussion, setCurrentTopic } = discussionSlice.actions;
 
 const { reducer } = discussionSlice;
 export default reducer;

@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { retrieveTopicDiscussions } from "../../slices/discussion.slice";
+import { 
+  retrieveTopicDiscussions, 
+  setCurrentTopic 
+} from "../../slices/discussion.slice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -7,14 +10,19 @@ import { useParams } from "react-router-dom";
 
 const DiscussionList = () => {
   const { topic_url } = useParams();
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.discussions);
   const discussions = state.discussions;
-  const dispatch = useDispatch();
+  const topic = state.topic;
+
   useEffect(() => {
-    if (discussions.length === 0) {
+    // store current topic discussion, refresh when topic changed
+    if (topic_url !== topic) {
+      dispatch(setCurrentTopic(topic_url));
       dispatch(retrieveTopicDiscussions(topic_url));
     }
-  }, [dispatch, discussions, topic_url]);
+  }, [dispatch, topic_url, topic]);
+  
   return (
     <div>
       <h1>List discuss</h1>
