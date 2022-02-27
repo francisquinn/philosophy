@@ -1,7 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import TopicDataService from "../service/topic.service";
 
-const initialState = [];
+const initialState = {
+  topics: [],
+  topic: {},
+  isLoading: true,
+  isError: null
+}
 
 export const retrieveTopics = createAsyncThunk("topics/retrieve", async () => {
   const res = await TopicDataService.getALLTopics();
@@ -27,12 +32,26 @@ export const createTopic = createAsyncThunk(
 const topicSlice = createSlice({
   name: "topic",
   initialState,
+  reducers: {
+    setCurrentTopic: (state, action) => {
+      state.topic = action.payload;
+    }
+  },
   extraReducers: {
     [retrieveTopics.fulfilled]: (state, action) => {
-      return [...action.payload];
+      state.isLoading = false;
+      for (const topic of action.payload) {
+        state.topics.push(topic);
+      }
+      //return [...action.payload];
+    },
+    [retrieveTopicByUrl.pending]: (state, action) => {
+      state.isLoading = true;
     },
     [retrieveTopicByUrl.fulfilled]: (state, action) => {
-      return action.payload;
+      state.isLoading = false;
+      state.topic = action.payload;
+      //return action.payload;
     },
     [createTopic.fulfilled]: (state, action) => {
       state.push(action.payload);
@@ -40,5 +59,6 @@ const topicSlice = createSlice({
   },
 });
 
+export const { setCurrentTopic } = topicSlice.actions;
 const { reducer } = topicSlice;
 export default reducer;

@@ -1,18 +1,36 @@
 const User = require("../models/user.model");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const privateKey = fs.readFileSync('jwtRS256.key');
 
 const login = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-
   User.findOne({ email: email })
-    .then((response) => {
-      if (response == null) {
-        res.status(400).send({ staus: 400, message: "user not found" })
+    .then((user) => {
+      if (user == null) {
+        res.status(400).send({ staus: 400, message: "user not found" });
         return;
       }
-
       // check password
+      validatePassword(password, user.password)
+        .then(result => {
+          if (!result) {
+            res.status(400).send({ staus: 400, message: "user not found" });
+            return;
+          }
+          // sign JWT token
+          const token = jwt.sign(
+            { user_id: user._id }, 
+            privateKey,
+            { algorithm: 'RS256', expiresIn: '1h' });
 
+            if (token) {
+              res.status(200).send({ status: 200, message: "login successful!", token: token });
+            }
+            res.status(400).send({ staus: 400, message: "authenication error" });
+        });
     })
     .catch((err) => console.log(err));
 };
@@ -31,14 +49,17 @@ const register = (req, res) => {
     return;
   }
 
-  User.create({
-    firstName: firstName,
-    lastName: lastName,
-    username: username,
-    email: email,
-    password: password,
-  }).then(res.status(200).send({ status: 200, message: regVal.message }))
-    .catch((err) => console.log(err));
+  hashPassword(password)
+    .then(hash => {
+      User.create({
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        email: email,
+        password: hash,
+      }).then(res.status(200).send({ status: 200, message: regVal.message }))
+        .catch((err) => console.log(err));
+    })
 };
 
 // server form validation for the registration
@@ -66,6 +87,18 @@ const registerValidation = (firstName, lastName, username, email, password) => {
   // Send back status 200 with success message
   return { status: 200, message: "Reg success" };
 };
+
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  const hash = await bcrypt.hash(password, saltRounds);
+  return hash;
+};
+
+const validatePassword = async (password, hash) => {
+  const check = await bcrypt.compare(password, hash);
+  return check;
+};
+
 module.exports = {
   login,
   register,

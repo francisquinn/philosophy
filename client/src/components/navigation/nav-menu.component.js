@@ -5,14 +5,14 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const NavMenu = () => {
   const { width } = useWindowDimensions();
-  const state = useSelector((state) => state);
+  const state = useSelector((state) => state.menu);
   const dispatch = useDispatch();
   
   return (
     <div>
       {width > 575 && (
         <div className="nav-menu">
-          {state.menu.items.map((item) => (
+          {state.items.map((item) => (
             <div className="menu-item" key={item.id}>
               <Link to={item.route}>{item.text}</Link>
             </div>

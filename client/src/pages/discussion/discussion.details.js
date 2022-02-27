@@ -1,24 +1,12 @@
-import { retrieveDiscussionById } from "../../slices/discussion.slice";
-import useDispatchRequest from "../../hooks/useDispatchRequest";
-import { useParams } from "react-router-dom";
+import DiscussionDetails from "../../components/discussion/discussion-details.component";
 
-const DiscussionDetails = () => {
-  const { topic_url, discussion_id } = useParams();
-  const {
-    data: discussion,
-    isLoading,
-    isError,
-  } = useDispatchRequest(retrieveDiscussionById({ topic_url, discussion_id }));
-
+const DiscussionDetailsPage = () => {
   return (
     <div>
-      {isLoading && <h1>Loading...</h1>}
-      {isError && <h1>Error...</h1>}
-      <h1>discussion details </h1>
-      <h2>{discussion.title}</h2>
-      <span>{discussion.description}</span>
+      <h1>discussions</h1>
+      <DiscussionDetails />
     </div>
   );
 };
 
-export default DiscussionDetails;
+export default DiscussionDetailsPage;

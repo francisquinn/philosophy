@@ -3,9 +3,9 @@ import React from "react";
 import Home from "./pages/home.page";
 import About from "./pages/about.page";
 import Topics from "./pages/topic/topics.page";
-import TopicDetails from "./pages/topic/topic.details";
 import Discussions from "./pages/discussion/discussion.page";
 import DiscussionDetails from "./pages/discussion/discussion.details";
+import TopicDetailsPage from "./pages/topic/topic.details";
 /** Components */
 import NavMenu from "./components/navigation/nav-menu.component";
 import NavBar from "./components/navigation/navbar.component";
@@ -31,7 +31,7 @@ function App() {
               <Routes>
                 <Route path="/about" element={<About />} />
                 <Route path="/topics" element={<Topics />} />
-                <Route path="/topics/:topic_url" element={<TopicDetails />} />
+                <Route path="/topics/:topic_url" element={<TopicDetailsPage />} />
                 <Route
                   path="/topics/:topic_url/discussions"
                   element={<Discussions />}

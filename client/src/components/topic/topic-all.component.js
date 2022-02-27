@@ -1,17 +1,24 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { retrieveTopics } from "../../slices/topic.slice";
-import useDispatchRequest from "../../hooks/useDispatchRequest";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const TopicsList = () => {
-  const {
-    data: topics,
-    isLoading,
-    isError,
-  } = useDispatchRequest(retrieveTopics());
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.topics);
+  const topics = state.topics;
+
+  useEffect(() => {
+    if (topics.length === 0) {
+      dispatch(retrieveTopics());
+    }
+  }, [dispatch, topics]);
+
   return (
     <div>
-      {isLoading && <h1>Loading...</h1>}
-      {isError && <h1>Error...</h1>}
+      {state.isLoading && <h1>Loading...</h1>}
+      {state.isError && <h1>Error...</h1>}
       {topics &&
         topics.map((topic, index) => (
           <Link to={`/topics/${topic.url}`} key={index}>
