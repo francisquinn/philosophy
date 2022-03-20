@@ -12,7 +12,7 @@ const DiscussionList = () => {
   const { topic_url } = useParams();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.discussions);
-  const discussions = state.discussions;
+  const discussions = state.list;
   const topic = state.topic;
 
   useEffect(() => {

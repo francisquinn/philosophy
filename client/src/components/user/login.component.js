@@ -22,7 +22,11 @@ const Login = () => {
         password: password.current.value,
       })
     )
-      .then((res) => console.log("send"))
+      .then((res) => {
+        const token = res.payload.token;
+        localStorage.setItem('token', token);
+        window.location.reload();
+      })
       .catch((err) => setError(err.message));
 
     setIsLoading(false);
@@ -48,7 +52,7 @@ const Login = () => {
               )}
               submit
             </button>
-            <span onClick={() => dispatch(navigate({ component: "sign up" }))}>
+            <span onClick={() => dispatch(navigate({ component: "REGISTER" }))}>
               create an account
             </span>
           </form>

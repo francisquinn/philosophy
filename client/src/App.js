@@ -11,8 +11,13 @@ import NavMenu from "./components/navigation/nav-menu.component";
 import NavBar from "./components/navigation/navbar.component";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PopUpWindow from "./components/utils/popup.component";
+import CreateDiscussion from "./components/discussion/discussion-create.component";
+import EditDiscussion from "./components/discussion/discussion-edit.component";
+/** Hooks */
+import useUserLoggedStatus from "./hooks/useLoggedStatus";
 
 function App() {
+  useUserLoggedStatus();
   return (
     <Router>
       <div className="popup-container">
@@ -37,8 +42,16 @@ function App() {
                   element={<Discussions />}
                 />
                 <Route
+                  path="/create"
+                  element={<CreateDiscussion />}
+                />
+                <Route
                   path="/topics/:topic_url/discussions/:discussion_id"
                   element={<DiscussionDetails />}
+                />
+                <Route
+                  path="/topics/:topic_url/discussions/:discussion_id/edit"
+                  element={<EditDiscussion />}
                 />
                 <Route path="/" element={<Home />} />
               </Routes>

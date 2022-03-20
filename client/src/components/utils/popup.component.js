@@ -3,12 +3,13 @@ import { togglePopUpWindow } from "../../slices/popup.slice";
 import { useEffect } from "react";
 import Login from "../user/login.component";
 import SignUp from "../user/register.component";
+import EditDiscussion from "../discussion/discussion-edit.component";
 
 const PopUpWindow = () => {
-  const popup = useSelector((state) => state.popup);
+  const state = useSelector((state) => state);
+  const popup = state.popup;
+  const discussion = state.discussions.current;
   const dispatch = useDispatch();
-
-  console.log(popup.component)
 
   useEffect(() => {
     const elements = document.getElementById("app-body");
@@ -25,8 +26,9 @@ const PopUpWindow = () => {
     <div>
     {popup.window &&
     <>
-       {popup.component === "login" && <Login />}
-       {popup.component === "sign up" && <SignUp />}
+       {popup.component === "LOGIN" && <Login />}
+       {popup.component === "REGISTER" && <SignUp />}
+       {popup.component === "EDIT" && <EditDiscussion current={discussion} />}
         <p>{popup.component}</p>
         <button onClick={() => dispatch(togglePopUpWindow({ component: null }))}>Close</button>
     </>

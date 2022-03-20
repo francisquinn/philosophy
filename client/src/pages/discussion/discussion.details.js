@@ -6,7 +6,7 @@ const DiscussionDetailsPage = () => {
 
   return (
     <div>
-      <h1>discussions</h1>
+      <h1>discussion detail</h1>
       <DiscussionDetails topic_url={ topic_url } discussion_id={ discussion_id }/>
     </div>
   );

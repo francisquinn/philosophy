@@ -65,7 +65,7 @@ const SignUp = () => {
             <input type="password" placeholder="password" ref={password} />
             <br />
             <button type="submit">submit</button>
-            <p onClick={() => dispatch(navigate({ component: "login" }))}>
+            <p onClick={() => dispatch(navigate({ component: "LOGIN" }))}>
                 login
             </p>
             <p>{response}</p>

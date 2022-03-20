@@ -22,14 +22,17 @@ const login = (req, res) => {
           }
           // sign JWT token
           const token = jwt.sign(
-            { user_id: user._id }, 
+            { id: user._id }, 
             privateKey,
             { algorithm: 'RS256', expiresIn: '1h' });
 
-            if (token) {
-              res.status(200).send({ status: 200, message: "login successful!", token: token });
+            if (!token) {
+              res.status(400).send({ staus: 400, message: "authenication error" });
+              return;
             }
-            res.status(400).send({ staus: 400, message: "authenication error" });
+
+            res.status(200).send({ status: 200, message: "login successful!", token: token });
+           
         });
     })
     .catch((err) => console.log(err));
@@ -99,7 +102,16 @@ const validatePassword = async (password, hash) => {
   return check;
 };
 
+const getUserInfo = (req, res) => {
+  User.findById(res.locals.user)
+    .then((user) => {
+      res.status(200).send({ username: user.username });
+    })
+    .catch((err) => console.log(err))
+};
+
 module.exports = {
   login,
   register,
+  getUserInfo
 };

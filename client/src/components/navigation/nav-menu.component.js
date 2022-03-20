@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { togglePopUpWindow } from "../../slices/popup.slice";
+import { useSelector } from "react-redux";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const NavMenu = () => {
   const { width } = useWindowDimensions();
   const state = useSelector((state) => state.menu);
-  const dispatch = useDispatch();
   
   return (
     <div>
@@ -17,12 +15,6 @@ const NavMenu = () => {
               <Link to={item.route}>{item.text}</Link>
             </div>
           ))}
-          <div className="login-item">
-            <button onClick={() => dispatch(togglePopUpWindow({ component: "login" }))}>Login</button>
-          </div>
-          <div className="signup-item">
-            <button onClick={() => dispatch(togglePopUpWindow({ component: "sign up" }))}>Register</button>
-          </div>
         </div>
       )}
     </div>

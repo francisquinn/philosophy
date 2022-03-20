@@ -8,11 +8,19 @@ const discussionSchema = new Schema(
       type: ObjectId,
       required: true,
     },
+    user_id: {
+      type: ObjectId,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
     },
     description: {
+      type: String,
+      required: true,
+    },
+    author: {
       type: String,
       required: true,
     },

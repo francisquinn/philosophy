@@ -2,35 +2,41 @@ import { retrieveDiscussionById, setCurrentDiscussion } from "../../slices/discu
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { togglePopUpWindow } from "../../slices/popup.slice";
 
 const DiscussionDetails = (props) => {
   const topic_url = props.topic_url;
   const discussion_id = props.discussion_id;
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.discussions);
-  const discussion = state.discussion;
+  const state = useSelector((state) => state);
+  const discussion = state.discussions.current;
+  const user = state.user.info;
   
   useEffect(() => {
-    if (state.discussions.length > 0) {
-        // retrieve from store & set topic
-        for (const d of state.discussions) {
-          if (d._id === discussion_id) {
-            dispatch(setCurrentDiscussion(d));
-            return;
-          }
-        }
-    } else {
-        // retrieve from api
-        dispatch(retrieveDiscussionById({ topic_url, discussion_id }));
+    if (!(state.discussions.list.length > 0)) {
+      dispatch(retrieveDiscussionById({ topic_url, discussion_id }));
+      return;
     }
-}, [dispatch, props, state.discussions, topic_url, discussion_id]);
+    // retrieve from store & set topic
+    for (const d of state.discussions.list) {
+      if (d._id === discussion_id) {
+        dispatch(setCurrentDiscussion(d));
+        return;
+      }
+    }
+}, [dispatch, props, state.discussions.list, topic_url, discussion_id]);
 
 
   return (
     <div>
-      <h1>discussion details </h1>
+      <>
+      {discussion.author === user.username && (
+        <button onClick={() => dispatch(togglePopUpWindow({ component: "EDIT" }))}>edit</button>
+      )}
+      </>
       <h2>{discussion.title}</h2>
       <span>{discussion.description}</span>
+      <p>{discussion.author}</p>
     </div>
   );
 };

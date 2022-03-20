@@ -2,16 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import DiscussionDataService from "../service/discussion.service";
 
 const initialState = {
-  discussions: [],
-  discussion: {},
+  list: [],
+  current: {},
   topic: null,
   isLoading: true
 };
 
 export const retrieveTopicDiscussions = createAsyncThunk(
   "discussions/retieveTopicDiscussions",
-  async (url) => {
-    const res = await DiscussionDataService.getTopicDiscussion(url);
+  async (topic_url) => {
+    const res = await DiscussionDataService.getTopicDiscussion(topic_url);
     return res.data;
   }
 );
@@ -27,12 +27,37 @@ export const retrieveDiscussionById = createAsyncThunk(
   }
 );
 
+export const createTopicDiscussion = createAsyncThunk(
+  "discussions/create",
+  async ({ title, description, topic_url }) => {
+    const res = await DiscussionDataService.createTopicDiscussion({
+      title: title,
+      description: description,
+      topic_url: topic_url
+    });
+    return res.data;
+  }
+);
+
+export const updateTopicDiscussion = createAsyncThunk(
+  "discussions/update",
+  async ({ discussion_id, title, description, topic_id }) => {
+    const res = await DiscussionDataService.updateTopicDiscussion({
+      discussion_id: discussion_id,
+      title: title,
+      description: description,
+      topic_id: topic_id
+    });
+    return res.data;
+  }
+);
+
 const discussionSlice = createSlice({
   name: "discussion",
   initialState,
   reducers : {
     setCurrentDiscussion: (state, action) => {
-      state.discussion = action.payload;
+      state.current = action.payload;
     },
     setCurrentTopic: (state, action) => {
       state.topic = action.payload;
@@ -41,20 +66,23 @@ const discussionSlice = createSlice({
   extraReducers: {
     [retrieveTopicDiscussions.pending]: (state, action) => {
       state.isLoading = true;
-      state.discussions = [];
+      state.list = [];
     },
     [retrieveTopicDiscussions.fulfilled]: (state, action) => {
       state.isLoading = false;
       for (const discussion of action.payload) {
-        state.discussions.push(discussion);
+        state.list.push(discussion);
       }
+    },
+    [createTopicDiscussion.fulfilled]: (state, action) => {
+      state.list.push(action.payload);
     },
     [retrieveDiscussionById.pending]: (state, action) => {
       state.isLoading = true;
     },
     [retrieveDiscussionById.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.discussion = action.payload;
+      state.current = action.payload;
     },
   },
 });
