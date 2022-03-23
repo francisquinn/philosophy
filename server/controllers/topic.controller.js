@@ -57,6 +57,13 @@ const updateTopicDiscussion = (req, res) => {
   .catch((err) => console.log(err));
 };
 
+const deleteTopicDiscussion = (req, res) => {
+  //console.log(req.body)
+  Discussion.findByIdAndDelete(req.body.discussion_id)
+    .then(() => console.log('discussion deleted'))
+    .catch((err) => console.log(err));
+};
+
 const getDiscussionById = (req, res) => {
   let discussion_id = req.params.discussion_id;
   Discussion.findById(discussion_id)
@@ -70,5 +77,6 @@ module.exports = {
   getTopicDiscussions,
   createTopicDiscussion,
   updateTopicDiscussion,
+  deleteTopicDiscussion,
   getDiscussionById,
 };

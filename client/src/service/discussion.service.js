@@ -1,4 +1,9 @@
 import http from "./http-common";
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+};
 
 class DiscussionDataService {
   getTopicDiscussion(topic_url) {
@@ -10,21 +15,16 @@ class DiscussionDataService {
   }
 
   createTopicDiscussion(data) {
-    const config = {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
-    };
     return http.post("/topics/discussion/create", data, config);
   }
 
   updateTopicDiscussion(data) {
-    const config = {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
-    };
     return http.put("/topics/discussion/update", data, config);
+  }
+
+  deleteTopicDiscussion(discussion_id) {
+    config['data'] = discussion_id;
+    return http.delete("/topics/discussion/delete", config);
   }
 
 }

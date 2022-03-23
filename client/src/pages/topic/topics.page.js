@@ -1,4 +1,6 @@
+import React from "react";
 import TopicsList from "../../components/topic/topic-all.component";
+//const TopicsList = React.lazy(() => import('../../components/topic/topic-all.component'));
 
 const Topics = () => {
   return (

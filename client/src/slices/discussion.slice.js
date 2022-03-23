@@ -52,6 +52,16 @@ export const updateTopicDiscussion = createAsyncThunk(
   }
 );
 
+export const deleteTopicDiscussion = createAsyncThunk(
+  "discussions/delete",
+  async ({ discussion_id }) => {
+    const res = await DiscussionDataService.deleteTopicDiscussion({
+      discussion_id: discussion_id
+    });
+    return res.data;
+  }
+);
+
 const discussionSlice = createSlice({
   name: "discussion",
   initialState,

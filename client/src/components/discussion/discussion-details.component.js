@@ -31,7 +31,10 @@ const DiscussionDetails = (props) => {
     <div>
       <>
       {discussion.author === user.username && (
-        <button onClick={() => dispatch(togglePopUpWindow({ component: "EDIT" }))}>edit</button>
+        <div>
+          <button onClick={() => dispatch(togglePopUpWindow({ component: "EDIT" }))}>edit</button>
+          <button onClick={() => dispatch(togglePopUpWindow({ component: "DELETE" }))}>delete</button>
+        </div>
       )}
       </>
       <h2>{discussion.title}</h2>
