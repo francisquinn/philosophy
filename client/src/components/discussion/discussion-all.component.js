@@ -14,6 +14,7 @@ const DiscussionList = () => {
   const state = useSelector((state) => state.discussions);
   const discussions = state.list;
   const topic = state.topic;
+  console.log(discussions)
 
   useEffect(() => {
     // store current topic discussion, refresh when topic changed
@@ -21,7 +22,7 @@ const DiscussionList = () => {
       dispatch(setCurrentTopic(topic_url));
       dispatch(retrieveTopicDiscussions(topic_url));
     }
-  }, [dispatch, topic_url, topic]);
+  }, [dispatch, discussions, topic_url, topic]);
   
   return (
     <div>

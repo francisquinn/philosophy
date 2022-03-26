@@ -15,7 +15,6 @@ const DiscussionDetails = React.lazy(() => import('./pages/discussion/discussion
 
 /** Components */
 const PopUpWindow = React.lazy(() => import('./components/utils/popup.component'));
-const CreateDiscussion = React.lazy(() => import('./components/discussion/discussion-create.component'));
 
 function App() {
   useUserLoggedStatus();
@@ -25,7 +24,6 @@ function App() {
         <Suspense fallback={'<div>Loading...</div>'}>
           <PopUpWindow />
         </Suspense>
-        
       </div>
       <div className="App container" id="app-body">
         <div className="row">
@@ -45,10 +43,6 @@ function App() {
                   <Route
                     path="/topics/:topic_url/discussions"
                     element={<Discussions />}
-                  />
-                  <Route
-                    path="/create"
-                    element={<CreateDiscussion />}
                   />
                   <Route
                     path="/topics/:topic_url/discussions/:discussion_id"

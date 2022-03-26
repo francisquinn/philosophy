@@ -5,7 +5,7 @@ import {
 import { navigate } from "../../slices/popup.slice";
 import { useRef, useState } from "react";
 
-const SignUp = () => {
+const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(null);
   const [response, setResponse] = useState(null);
@@ -75,4 +75,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Register;

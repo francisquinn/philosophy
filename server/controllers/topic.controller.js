@@ -5,14 +5,14 @@ const mongoose = require('mongoose');
 
 const getAllTopics = (req, res) => {
   Topic.find()
-    .then((r) => res.send(r))
-    .catch((e) => console.log(e));
+    .then((response) => res.status(200).send(response))
+    .catch((err) => console.log(err));
 };
 
 const getTopicByUrl = (req, res) => {
   let url = req.params;
   Topic.findOne(url)
-    .then((r) => res.send(r))
+    .then((response) => res.status(200).send(response))
     .catch((err) => console.log(err));
 };
 
@@ -22,13 +22,18 @@ const getTopicDiscussions = (req, res) => {
     .then((response) => {
       const topic_id = response._id;
       Discussion.find({ topic_id: topic_id })
-        .then((discussions) => res.send(discussions))
-        .catch((err) => console.log(err));
+        .then((discussions) => res.status(200).send(discussions))
+        .catch((error) => console.log(error));
     })
     .catch((err) => console.log(err));
 };
 
 const createTopicDiscussion = (req, res) => {
+  // TODO validate text fields
+  if (req.body.title.length < 1) {
+    res.status(400).send({ status: 400, message: 'Discussion not' });
+    return;
+  }
   let topic_url = {url:'test'};
   User.findById(res.locals.user)
   .then((user) => {
@@ -42,6 +47,9 @@ const createTopicDiscussion = (req, res) => {
         description: req.body.description,
         author: user.username,
         topic_url: topic_url.url
+      })
+      .then((discussion) => {
+        res.status(200).send({ status: 200, message: 'Discussion created', discussion: discussion });
       });
     })
     .catch((err) => console.log(err));
@@ -53,21 +61,23 @@ const updateTopicDiscussion = (req, res) => {
     title: req.body.title,
     description: req.body.description,
   })
-  .then(() => console.log("discussion edited success"))
+  .then(() => {
+    Discussion.findById(req.body.discussion_id)
+      .then((discussion) =>  res.status(200).send({ status: 200, message: 'Discussion updated', discussion: discussion }))
+  })
   .catch((err) => console.log(err));
 };
 
 const deleteTopicDiscussion = (req, res) => {
-  //console.log(req.body)
   Discussion.findByIdAndDelete(req.body.discussion_id)
-    .then(() => console.log('discussion deleted'))
+    .then(() => res.status(200).send({ status: 200, message: 'Discussion deleted' }))
     .catch((err) => console.log(err));
 };
 
 const getDiscussionById = (req, res) => {
   let discussion_id = req.params.discussion_id;
   Discussion.findById(discussion_id)
-    .then((discussion) => res.send(discussion))
+    .then((discussion) => res.status(200).send(discussion))
     .catch((err) => console.log(err));
 };
 

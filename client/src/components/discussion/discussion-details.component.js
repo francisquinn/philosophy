@@ -26,7 +26,6 @@ const DiscussionDetails = (props) => {
     }
 }, [dispatch, props, state.discussions.list, topic_url, discussion_id]);
 
-
   return (
     <div>
       <>

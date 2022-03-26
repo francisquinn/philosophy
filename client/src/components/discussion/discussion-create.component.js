@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState} from "react";
 import { createTopicDiscussion } from "../../slices/discussion.slice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -7,6 +7,7 @@ const CreateDiscussion = () => {
     const user = useSelector((state) => state.user);
     const title = useRef(null);
     const description = useRef(null);
+    const [response, setResponse] = useState(null);
 
 
     const submitDiscussion = () => {
@@ -14,7 +15,16 @@ const CreateDiscussion = () => {
             title: title.current.value,
             description: description.current.value,
             topic_url: "test" // testing
-        }));
+        }))
+        .then((res) => {
+            console.log(res)
+            const status = res.payload.status;
+            if (status !== 200) {
+                setResponse(res.payload.message);
+                return;
+            }
+            setResponse(res.payload.message);
+        });
     };
     return (
         <div>
@@ -28,6 +38,7 @@ const CreateDiscussion = () => {
                     <input type="text" placeholder="description" ref={description} />
                     <br />
                     <input type="submit" value="Submit" onClick={() => submitDiscussion()} />
+                    <p>{response}</p>
                 </div>
             )}
         </div>

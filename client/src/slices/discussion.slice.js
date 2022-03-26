@@ -11,7 +11,10 @@ const initialState = {
 export const retrieveTopicDiscussions = createAsyncThunk(
   "discussions/retieveTopicDiscussions",
   async (topic_url) => {
-    const res = await DiscussionDataService.getTopicDiscussion(topic_url);
+    const res = await DiscussionDataService.getTopicDiscussion(topic_url)
+    .catch((err) => {
+      return err.response;
+    });
     return res.data;
   }
 );
@@ -22,7 +25,10 @@ export const retrieveDiscussionById = createAsyncThunk(
     const res = await DiscussionDataService.getDiscussionById(
       topic_url,
       discussion_id
-    );
+    )
+    .catch((err) => {
+      return err.response;
+    });
     return res.data;
   }
 );
@@ -34,7 +40,11 @@ export const createTopicDiscussion = createAsyncThunk(
       title: title,
       description: description,
       topic_url: topic_url
+    })
+    .catch((err) => {
+      return err.response;
     });
+
     return res.data;
   }
 );
@@ -47,7 +57,10 @@ export const updateTopicDiscussion = createAsyncThunk(
       title: title,
       description: description,
       topic_id: topic_id
-    });
+    })
+    .catch((err) => {
+      return err.response;
+    });;
     return res.data;
   }
 );
@@ -57,7 +70,10 @@ export const deleteTopicDiscussion = createAsyncThunk(
   async ({ discussion_id }) => {
     const res = await DiscussionDataService.deleteTopicDiscussion({
       discussion_id: discussion_id
-    });
+    })
+    .catch((err) => {
+      return err.response;
+    });;
     return res.data;
   }
 );
@@ -74,7 +90,7 @@ const discussionSlice = createSlice({
     }
   },
   extraReducers: {
-    [retrieveTopicDiscussions.pending]: (state, action) => {
+    [retrieveTopicDiscussions.pending]: (state) => {
       state.isLoading = true;
       state.list = [];
     },
@@ -85,14 +101,27 @@ const discussionSlice = createSlice({
       }
     },
     [createTopicDiscussion.fulfilled]: (state, action) => {
-      state.list.push(action.payload);
+      state.list.push(action.payload.discussion);
     },
-    [retrieveDiscussionById.pending]: (state, action) => {
+    [retrieveDiscussionById.pending]: (state) => {
       state.isLoading = true;
     },
     [retrieveDiscussionById.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.current = action.payload;
+    },
+    [deleteTopicDiscussion.fulfilled]: (state) => {
+      state.isLoading = false;
+      if (state.list.length !== 0) {
+        state.list = state.list.filter(discussion => discussion._id !== state.current._id);
+      } 
+    },
+    [updateTopicDiscussion.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      if (state.list.length !== 0) {
+        const index = state.list.findIndex(discussion => discussion._id === state.current._id);
+        state.list[index] = action.payload.discussion;
+      }
     },
   },
 });

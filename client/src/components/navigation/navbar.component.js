@@ -26,7 +26,7 @@ const NavBar = () => {
           <span>{width}</span>
           {state.user.isLoggedIn ? (
             <div>
-              <Link to="/create">Create discussion</Link>
+              <button onClick={() => dispatch(togglePopUpWindow({ component: "CREATE" }))}>Create discussion</button>
               <button onClick={() => logout() }>Logout</button>
             </div>
           ) : (

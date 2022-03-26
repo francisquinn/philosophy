@@ -1,11 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { togglePopUpWindow } from "../../slices/popup.slice";
-import { useEffect } from "react";
-import Login from "../user/login.component";
-import SignUp from "../user/register.component";
+import React, { useEffect } from "react";
 /** Discussion */
-import EditDiscussion from "../discussion/discussion-edit.component";
-import DeleteDiscussion from "../discussion/discussion-delete.component";
+const DeleteDiscussion = React.lazy(() => import('../discussion/discussion-delete.component'));
+const EditDiscussion = React.lazy(() => import('../discussion/discussion-edit.component'));
+const CreateDiscussion = React.lazy(() => import('../discussion/discussion-create.component'));
+/** User */
+const Login = React.lazy(() => import('../user/login.component'));
+const Register = React.lazy(() => import('../user/register.component'));
 
 const PopUpWindow = () => {
   const state = useSelector((state) => state);
@@ -29,8 +31,9 @@ const PopUpWindow = () => {
     {popup.window &&
     <>
        {popup.component === "LOGIN" && <Login />}
-       {popup.component === "REGISTER" && <SignUp />}
+       {popup.component === "REGISTER" && <Register />}
        {popup.component === "EDIT" && <EditDiscussion current={discussion} />}
+       {popup.component === "CREATE" && <CreateDiscussion />}
        {popup.component === "DELETE" && <DeleteDiscussion current={discussion} />}
         <p>{popup.component}</p>
         <button onClick={() => dispatch(togglePopUpWindow({ component: null }))}>Close</button>
