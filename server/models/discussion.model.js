@@ -24,6 +24,10 @@ const discussionSchema = new Schema(
       type: String,
       required: true,
     },
+    url: {
+      type: String,
+      required: true,
+    },
     topic_url: {
       type: String,
       required: true,

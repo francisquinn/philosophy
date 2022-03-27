@@ -14,6 +14,7 @@ const DiscussionList = () => {
   const state = useSelector((state) => state.discussions);
   const discussions = state.list;
   const topic = state.topic;
+
   console.log(discussions)
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const DiscussionList = () => {
       <h1>List discuss</h1>
       {discussions &&
         discussions.map((discussion, index) => (
-          <Link to={`/topics/${topic_url}/discussions/${discussion._id}`} key={index}>
+          <Link to={`/topics/${topic_url}/discussions/${discussion.url}`} key={index}>
             <h3>{discussion.title}</h3>
           </Link>
         ))}

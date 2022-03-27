@@ -10,6 +10,6 @@ router.post("/discussion/create", authController.authenticateToken, topicControl
 router.put("/discussion/update", authController.authenticateToken, topicController.updateTopicDiscussion);
 router.delete("/discussion/delete", authController.authenticateToken, topicController.deleteTopicDiscussion);
 router.get("/:url/discussions", topicController.getTopicDiscussions);
-router.get("/:url/discussions/:discussion_id", topicController.getDiscussionById);
+router.get("/:url/discussions/:discussion_url", topicController.getDiscussionByUrl);
 
 module.exports = router;

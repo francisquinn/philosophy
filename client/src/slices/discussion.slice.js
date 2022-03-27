@@ -19,12 +19,12 @@ export const retrieveTopicDiscussions = createAsyncThunk(
   }
 );
 
-export const retrieveDiscussionById = createAsyncThunk(
-  "discussions/retieveById",
-  async ({ topic_url, discussion_id }) => {
-    const res = await DiscussionDataService.getDiscussionById(
+export const retrieveDiscussionByUrl = createAsyncThunk(
+  "discussions/retieveByUrl",
+  async ({ topic_url, discussion_url }) => {
+    const res = await DiscussionDataService.getDiscussionByUrl(
       topic_url,
-      discussion_id
+      discussion_url
     )
     .catch((err) => {
       return err.response;
@@ -103,10 +103,10 @@ const discussionSlice = createSlice({
     [createTopicDiscussion.fulfilled]: (state, action) => {
       state.list.push(action.payload.discussion);
     },
-    [retrieveDiscussionById.pending]: (state) => {
+    [retrieveDiscussionByUrl.pending]: (state) => {
       state.isLoading = true;
     },
-    [retrieveDiscussionById.fulfilled]: (state, action) => {
+    [retrieveDiscussionByUrl.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.current = action.payload;
     },
@@ -115,6 +115,7 @@ const discussionSlice = createSlice({
       if (state.list.length !== 0) {
         state.list = state.list.filter(discussion => discussion._id !== state.current._id);
       } 
+      state.current = {};
     },
     [updateTopicDiscussion.fulfilled]: (state, action) => {
       state.isLoading = false;
@@ -122,6 +123,7 @@ const discussionSlice = createSlice({
         const index = state.list.findIndex(discussion => discussion._id === state.current._id);
         state.list[index] = action.payload.discussion;
       }
+      state.current = action.payload.discussion;
     },
   },
 });

@@ -45,7 +45,7 @@ function App() {
                     element={<Discussions />}
                   />
                   <Route
-                    path="/topics/:topic_url/discussions/:discussion_id"
+                    path="/topics/:topic_url/discussions/:discussion_url"
                     element={<DiscussionDetails />}
                   />
                   <Route path="/" element={<Home />} />

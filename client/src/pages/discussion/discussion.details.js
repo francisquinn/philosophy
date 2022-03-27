@@ -2,12 +2,12 @@ import DiscussionDetails from "../../components/discussion/discussion-details.co
 import { useParams } from "react-router-dom";
 
 const DiscussionDetailsPage = () => {
-  const { topic_url, discussion_id } = useParams();
+  const { topic_url, discussion_url } = useParams();
 
   return (
     <div>
       <h1>discussion detail</h1>
-      <DiscussionDetails topic_url={ topic_url } discussion_id={ discussion_id }/>
+      <DiscussionDetails topic_url={ topic_url } discussion_url={ discussion_url }/>
     </div>
   );
 };

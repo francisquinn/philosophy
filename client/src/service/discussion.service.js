@@ -10,8 +10,8 @@ class DiscussionDataService {
     return http.get(`/topics/${topic_url}/discussions`);
   }
 
-  getDiscussionById(topic_url, discussion_id) {
-    return http.get(`/topics/${topic_url}/discussions/${discussion_id}`);
+  getDiscussionByUrl(topic_url, discussion_url) {
+    return http.get(`/topics/${topic_url}/discussions/${discussion_url}`);
   }
 
   createTopicDiscussion(data) {
