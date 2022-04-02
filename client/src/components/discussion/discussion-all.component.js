@@ -15,8 +15,6 @@ const DiscussionList = () => {
   const discussions = state.list;
   const topic = state.topic;
 
-  console.log(discussions)
-
   useEffect(() => {
     // store current topic discussion, refresh when topic changed
     if (topic_url !== topic) {

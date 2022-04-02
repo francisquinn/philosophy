@@ -1,30 +1,13 @@
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { deleteTopicDiscussion } from "../../slices/discussion.slice";
-import { togglePopUpWindow } from "../../slices/popup.slice";
+import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const DeleteDiscussion = (discussion) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [response, setResponse] = useState(null);
+    const { handle, isLoading, error, response } = useDispatchHandler();
 
     const deleteDiscussion = () => {
-        dispatch(deleteTopicDiscussion({
+        handle(deleteTopicDiscussion({
             discussion_id: discussion.current._id
-        }))
-        .then((res) => {
-            const status = res.payload.status;
-            if (status !== 200) {
-                setResponse(res.payload.message);
-                return;
-            }
-            setResponse(res.payload.message);
-            setTimeout(() => {
-                navigate(-1);
-                dispatch(togglePopUpWindow({ component: null }));
-            }, 2000)
-        });
+        }), { popDown: true, nav: true });
     };
 
     return (
@@ -32,6 +15,8 @@ const DeleteDiscussion = (discussion) => {
             <p>Are you sure you want to delete <span>{discussion.current.title}</span>?</p>
             <button onClick={ () => deleteDiscussion() }>Yes</button>
             <p>{ response }</p>
+            {isLoading && <h1>Loading...</h1>}
+            {error && <h1>{error}</h1>}
         </div>
     );
 };

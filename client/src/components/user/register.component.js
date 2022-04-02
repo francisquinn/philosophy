@@ -1,26 +1,24 @@
-import { useDispatch } from "react-redux";
 import {
   userRegister
 } from "../../slices/user.slice";
 import { navigate } from "../../slices/popup.slice";
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import useDispatchHandler from "../../hooks/useDispatchHandler";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setError] = useState(null);
-  const [response, setResponse] = useState(null);
+  const dispatch = useDispatch();
   /* User details */
   const firstName = useRef(null);
   const lastName = useRef(null);
   const username = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
-  const dispatch = useDispatch();
+  const { handle, isLoading, error, response } = useDispatchHandler();
 
   const submitRegForm = (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    dispatch(
+    handle(
       userRegister({
         firstName: firstName.current.value,
         lastName: lastName.current.value,
@@ -29,27 +27,11 @@ const Register = () => {
         password: password.current.value,
       })
     )
-      .then((res) => {
-          const status = res.payload.status;
-          if (status === 400) {
-            setResponse(res.payload.message);
-            return;
-          }
-
-          if (status === 200) {
-              setResponse(res.payload.message);
-              // show success message with link to login
-              return;
-          }
-      })
-      .catch((err) => console.log(err.message));
-    setIsLoading(false);
-    setError(false);
   };
 
   return (
     <div>
-      {isError && <h1>Error...</h1>}
+      {error && <h1>{error}</h1>}
       {isLoading && <h1>loading...</h1>}
         <div>
             <form onSubmit={submitRegForm}>

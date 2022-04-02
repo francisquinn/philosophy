@@ -1,33 +1,21 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useRef } from "react";
 import { updateTopicDiscussion } from "../../slices/discussion.slice";
-import { togglePopUpWindow } from "../../slices/popup.slice";
+import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const EditDiscussion = (discussion) => {
-    const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const title = useRef(discussion.current.title);
     const description = useRef(discussion.current.description);
-    const [response, setResponse] = useState(null);
+    const { handle, isLoading, error, response } = useDispatchHandler();
 
     const updateDiscussion = () => {
         // check if values change
-        dispatch(updateTopicDiscussion({
+        handle(updateTopicDiscussion({
             discussion_id: discussion.current._id,
             title: title.current.value,
             description: description.current.value,
-        }))
-        .then((res) => {
-            const status = res.payload.status;
-            if (status !== 200) {
-                setResponse(res.payload.message);
-                return;
-            }
-            setResponse(res.payload.message);
-            setTimeout(() => {
-                dispatch(togglePopUpWindow({ component: null }));
-            }, 2000);
-        });
+        }), { popDown: true })
     };
 
     return (
@@ -43,6 +31,8 @@ const EditDiscussion = (discussion) => {
                     <br />
                     <input type="submit" value="Submit" onClick={ () => updateDiscussion() } />
                     <p>{ response }</p>
+                    {isLoading && <h1>Loading...</h1>}
+                    {error && <h1>{error}</h1>}
                 </div>
             )}
         </div>

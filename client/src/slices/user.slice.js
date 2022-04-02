@@ -23,18 +23,32 @@ export const userLogin = createAsyncThunk(
 export const userRegister = createAsyncThunk(
   "user/register",
   async ({ firstName, lastName, username, email, password }) => {
-    const res = await UserDataService.register({
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      email: email,
-      password: password,
-    })
-    .catch((err) => {
-      return err.response;
-    })
+    try {
+      const res = await UserDataService.register({
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        email: email,
+        password: password,
+      });
+
+      return res.data;
+
+    } catch (err) {
+      return err.response.data;
+    }
+    
+
+
+
+
+    // .catch((err) => {
+    //   return err.response;
+    // })
+
+
   
-    return res.data;
+    
   }
 );
 
