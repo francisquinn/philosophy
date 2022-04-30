@@ -5,18 +5,17 @@ import Icon from "@mdi/react";
 import { mdiMenu } from "@mdi/js";
 import { Link } from "react-router-dom";
 import { togglePopUpWindow } from "../../slices/popup.slice";
-import { userLoggedState } from "../../slices/user.slice";
 
 const NavBar = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const { width } = useWindowDimensions();
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    window.location.reload();
-    dispatch(userLoggedState(false));
-  };
+  // const logout = () => {
+  //   localStorage.removeItem('token');
+  //   window.location.reload();
+  //   dispatch(userLoggedState(false));
+  // };
 
   return (
     <div className="navbar">
@@ -27,7 +26,7 @@ const NavBar = () => {
           {state.user.isLoggedIn ? (
             <div>
               <button onClick={() => dispatch(togglePopUpWindow({ component: "CREATE" }))}>Create discussion</button>
-              <button onClick={() => logout() }>Logout</button>
+              <button onClick={() => dispatch(togglePopUpWindow({ component: "LOGOUT" })) }>Logout</button>
             </div>
           ) : (
               <div>

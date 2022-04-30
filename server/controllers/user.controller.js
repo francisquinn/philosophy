@@ -24,15 +24,20 @@ const login = (req, res) => {
           const token = jwt.sign(
             { id: user._id }, 
             privateKey,
-            { algorithm: 'RS256', expiresIn: '1h' });
+            { algorithm: 'RS256', expiresIn: '10m' });
 
             if (!token) {
               res.status(400).send({ staus: 400, message: "authenication error" });
               return;
             }
 
-            res.status(200).send({ status: 200, message: "login successful!", token: token });
-           
+            res.cookie('token', token, {
+              httpOnly: true,
+              secure: false,
+              expires: new Date(Date.now() + 90000000),
+            });
+
+            res.status(200).send({ status: 200, message: "login successful!" });
         });
     })
     .catch((err) => console.log(err));
@@ -110,8 +115,32 @@ const getUserInfo = (req, res) => {
     .catch((err) => console.log(err))
 };
 
+const refresh = (req, res) => {
+  const refreshToken = req.body.token;
+  if (refreshToken == null) {
+    console.log("no token")
+  }
+  // check if token in database
+
+  // jwt verify refresh token
+
+  // create access token
+
+  // return new access token
+
+  // logout will remove refresh token from db
+};
+
+const logout = (req, res) => {
+  console.log('logout');
+  res.cookie('token', '', { maxAge: 1 });
+  res.status(302).send({ message: 'logout successful' });
+};
+
 module.exports = {
   login,
   register,
-  getUserInfo
+  getUserInfo,
+  refresh,
+  logout,
 };

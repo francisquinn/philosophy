@@ -52,13 +52,22 @@ export const userRegister = createAsyncThunk(
   }
 );
 
-export const retrieveUserInfo = createAsyncThunk(
-  "user/info",
+export const checkUserLoggedStatus = createAsyncThunk(
+  "user/status",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await UserDataService.checkUserLoggedStatus();
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  "user/logout",
   async () => {
-    const res = await UserDataService.getUserInfo()
-    .catch((err) => {
-      return err.response;
-    })
+    const res = await UserDataService.logout();
     return res.data;
   }
 );
@@ -80,7 +89,7 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: {
-    [retrieveUserInfo.fulfilled]: (state, action) => {
+    [checkUserLoggedStatus.fulfilled]: (state, action) => {
       state.info = action.payload;
     },
   }

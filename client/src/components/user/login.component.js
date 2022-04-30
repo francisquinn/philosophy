@@ -23,8 +23,6 @@ const Login = () => {
       })
     )
       .then((res) => {
-        const token = res.payload.token;
-        localStorage.setItem('token', token);
         window.location.reload();
       })
       .catch((err) => setError(err.message));

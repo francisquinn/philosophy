@@ -51,17 +51,18 @@ export const createTopicDiscussion = createAsyncThunk(
 
 export const updateTopicDiscussion = createAsyncThunk(
   "discussions/update",
-  async ({ discussion_id, title, description, topic_id }) => {
-    const res = await DiscussionDataService.updateTopicDiscussion({
-      discussion_id: discussion_id,
-      title: title,
-      description: description,
-      topic_id: topic_id
-    })
-    .catch((err) => {
-      return err.response;
-    });;
-    return res.data;
+  async ({ discussion_id, title, description, topic_id }, { rejectWithValue }) => {
+    try {
+      const res = await DiscussionDataService.updateTopicDiscussion({
+        discussion_id: discussion_id,
+        title: title,
+        description: description,
+        topic_id: topic_id
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -73,7 +74,7 @@ export const deleteTopicDiscussion = createAsyncThunk(
     })
     .catch((err) => {
       return err.response;
-    });;
+    });
     return res.data;
   }
 );
@@ -118,6 +119,7 @@ const discussionSlice = createSlice({
       state.current = {};
     },
     [updateTopicDiscussion.fulfilled]: (state, action) => {
+      console.log("here")
       state.isLoading = false;
       if (state.list.length !== 0) {
         const index = state.list.findIndex(discussion => discussion._id === state.current._id);
@@ -125,6 +127,10 @@ const discussionSlice = createSlice({
       }
       state.current = action.payload.discussion;
     },
+    [updateTopicDiscussion.rejected]: (state, action) => {
+      console.log(action.payload)
+      
+    }
   },
 });
 

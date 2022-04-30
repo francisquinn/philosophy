@@ -8,6 +8,7 @@ const CreateDiscussion = React.lazy(() => import('../discussion/discussion-creat
 /** User */
 const Login = React.lazy(() => import('../user/login.component'));
 const Register = React.lazy(() => import('../user/register.component'));
+const Logout = React.lazy(() => import('../user/logout.component'));
 
 const PopUpWindow = () => {
   const state = useSelector((state) => state);
@@ -32,6 +33,7 @@ const PopUpWindow = () => {
     <>
        {popup.component === "LOGIN" && <Login />}
        {popup.component === "REGISTER" && <Register />}
+       {popup.component === "LOGOUT" && <Logout />}
        {popup.component === "EDIT" && <EditDiscussion current={discussion} />}
        {popup.component === "CREATE" && <CreateDiscussion />}
        {popup.component === "DELETE" && <DeleteDiscussion current={discussion} />}

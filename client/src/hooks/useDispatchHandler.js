@@ -14,12 +14,12 @@ const useDispatchHandler = () => {
         setIsLoading(true);
         const res = await dispatch(action);
         
-        const status = res.payload.status;
+        //const status = res.payload.status;
         setIsLoading(false);
-        if (status !== 200) {
-            setError(res.payload.message);
-            return;
-        }
+        // if (status !== 200) {
+        //     setError(res.payload.message);
+        //     return;
+        // }
         if (config.popDown) {
             setTimeout(() => {
                 if (config.nav) {
@@ -29,7 +29,7 @@ const useDispatchHandler = () => {
             }, 2000)
         }
         setError(null);
-        setResponse(res.payload.message);
+        //setResponse(res.payload.message);
     }
     return { handle, isLoading, error, response };
 }

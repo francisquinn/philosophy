@@ -9,14 +9,17 @@ class UserDataService {
     return http.post("/user/register", data);
   }
 
-  getUserInfo() {
-    const config = {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
-    };
-    return http.get("/user/info", config);
+  logout() {
+    return http.get("/user/logout");
   }
+
+  checkUserLoggedStatus() {
+    return http.get("/user/status");
+  }
+
+  // getUserInfo() {
+  //   return http.get("/user/info", config);
+  // }
 }
 
 export default new UserDataService();
