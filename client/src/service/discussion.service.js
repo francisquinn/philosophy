@@ -6,7 +6,7 @@ const config = {
 };
 
 class DiscussionDataService {
-  getTopicDiscussion(topic_url) {
+  getTopicDiscussions(topic_url) {
     return http.get(`/topics/${topic_url}/discussions`);
   }
 

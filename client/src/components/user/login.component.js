@@ -22,17 +22,16 @@ const Login = () => {
         password: password.current.value,
       })
     )
-      .then((res) => {
-        window.location.reload();
-      })
-      .catch((err) => setError(err.message));
+    .unwrap()
+    .then(() =>  window.location.reload())
+    .catch((err) => setError(err.message));
 
     setIsLoading(false);
   };
 
   return (
     <div>
-      {isError && <h1>Error...</h1>}
+      {isError && <h1>{ isError }</h1>}
         <div>
           <form onSubmit={submitLoginForm}>
             <h1>login</h1>

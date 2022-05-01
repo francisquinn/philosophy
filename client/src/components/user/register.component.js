@@ -25,8 +25,7 @@ const Register = () => {
         username: username.current.value,
         email: email.current.value,
         password: password.current.value,
-      })
-    )
+      }), {})
   };
 
   return (
@@ -50,7 +49,7 @@ const Register = () => {
             <p onClick={() => dispatch(navigate({ component: "LOGIN" }))}>
                 login
             </p>
-            <p>{response}</p>
+            {response && <p>{ response.message }</p>}
             </form> 
         </div>
     </div>

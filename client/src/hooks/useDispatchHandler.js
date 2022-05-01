@@ -12,24 +12,24 @@ const useDispatchHandler = () => {
 
     const handle = async (action, config) => {
         setIsLoading(true);
-        const res = await dispatch(action);
-        
-        //const status = res.payload.status;
-        setIsLoading(false);
-        // if (status !== 200) {
-        //     setError(res.payload.message);
-        //     return;
-        // }
-        if (config.popDown) {
-            setTimeout(() => {
-                if (config.nav) {
-                    navigate(-1); 
+        dispatch(action)
+            .unwrap()
+            .then((res) => {
+                setIsLoading(false);
+                setResponse(res);
+                if (config.popDown) {
+                    setTimeout(() => {
+                        if (config.nav) {
+                            navigate(-1); 
+                        }
+                        dispatch(togglePopUpWindow({ component: null }));
+                    }, 2000)
                 }
-                dispatch(togglePopUpWindow({ component: null }));
-            }, 2000)
-        }
-        setError(null);
-        //setResponse(res.payload.message);
+            })
+            .catch((err) => {
+                setIsLoading(false);
+                setError(err.message);
+            });
     }
     return { handle, isLoading, error, response };
 }

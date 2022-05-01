@@ -22,16 +22,22 @@ const DiscussionList = () => {
       dispatch(retrieveTopicDiscussions(topic_url));
     }
   }, [dispatch, discussions, topic_url, topic]);
+
+  let discussionResults;
+  if (discussions.length < 1) {
+    discussionResults = <p>empty</p>
+  } else {
+    discussionResults =  discussions.map((discussion, index) => (
+                            <Link to={`/topics/${topic_url}/discussions/${discussion.url}`} key={index}>
+                              <h3>{discussion.title}</h3>
+                            </Link>
+                          ))
+  }
   
   return (
     <div>
       <h1>List discuss</h1>
-      {discussions &&
-        discussions.map((discussion, index) => (
-          <Link to={`/topics/${topic_url}/discussions/${discussion.url}`} key={index}>
-            <h3>{discussion.title}</h3>
-          </Link>
-        ))}
+      { discussionResults }
     </div>
   );
 };

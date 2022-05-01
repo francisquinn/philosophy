@@ -8,24 +8,38 @@ const initialState = {
   isError: null
 }
 
-export const retrieveTopics = createAsyncThunk("topics/retrieve", async () => {
-  const res = await TopicDataService.getALLTopics();
-  return res.data;
+export const retrieveTopics = createAsyncThunk(
+  "topics/retrieve", 
+  async (_, { rejectWithValue }) => {
+  try {
+    const res = await TopicDataService.getALLTopics();
+    return res.data;
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
 });
 
 export const retrieveTopicByUrl = createAsyncThunk(
   "topics/retrieveUrl",
-  async (url) => {
-    const res = await TopicDataService.getTopicByUrl(url);
-    return res.data;
+  async (url, { rejectWithValue }) => {
+    try {
+      const res = await TopicDataService.getTopicByUrl(url);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const createTopic = createAsyncThunk(
   "topics/create",
-  async ({ title, description }) => {
-    const res = await TopicDataService.create({ title, description });
-    return res.data;
+  async ({ title, description }, { rejectWithValue }) => {
+    try {
+      const res = await TopicDataService.create({ title, description });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -38,20 +52,25 @@ const topicSlice = createSlice({
     }
   },
   extraReducers: {
+    // all-topics
     [retrieveTopics.fulfilled]: (state, action) => {
       state.isLoading = false;
       for (const topic of action.payload) {
         state.topics.push(topic);
       }
     },
-    [retrieveTopicByUrl.pending]: (state, action) => {
+    [retrieveTopics.rejected]: (state, action) => {
+      state.isLoading = false;
+      console.log(action)
+    },
+    [retrieveTopics.pending]: (state, action) => {
       state.isLoading = true;
     },
+    // url-topic
     [retrieveTopicByUrl.fulfilled]: (state, action) => {
-      state.isLoading = false;
       state.topic = action.payload;
-      //return action.payload;
     },
+    // create-topic
     [createTopic.fulfilled]: (state, action) => {
       state.push(action.payload);
     },

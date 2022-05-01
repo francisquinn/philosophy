@@ -10,42 +10,44 @@ const initialState = {
 
 export const retrieveTopicDiscussions = createAsyncThunk(
   "discussions/retieveTopicDiscussions",
-  async (topic_url) => {
-    const res = await DiscussionDataService.getTopicDiscussion(topic_url)
-    .catch((err) => {
-      return err.response;
-    });
-    return res.data;
+  async (topic_url, {rejectWithValue }) => {
+    try {
+      const res = await DiscussionDataService.getTopicDiscussions(topic_url);
+      return res.data;
+    } catch(err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const retrieveDiscussionByUrl = createAsyncThunk(
   "discussions/retieveByUrl",
-  async ({ topic_url, discussion_url }) => {
-    const res = await DiscussionDataService.getDiscussionByUrl(
-      topic_url,
-      discussion_url
-    )
-    .catch((err) => {
-      return err.response;
-    });
-    return res.data;
+  async ({ topic_url, discussion_url }, { rejectWithValue }) => {
+    try {
+      const res = await DiscussionDataService.getDiscussionByUrl(
+        topic_url,
+        discussion_url
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const createTopicDiscussion = createAsyncThunk(
   "discussions/create",
-  async ({ title, description, topic_url }) => {
-    const res = await DiscussionDataService.createTopicDiscussion({
-      title: title,
-      description: description,
-      topic_url: topic_url
-    })
-    .catch((err) => {
-      return err.response;
-    });
-
-    return res.data;
+  async ({ title, description, topic_url }, { rejectWithValue }) => {
+    try {
+      const res = await DiscussionDataService.createTopicDiscussion({
+        title: title,
+        description: description,
+        topic_url: topic_url
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -68,14 +70,15 @@ export const updateTopicDiscussion = createAsyncThunk(
 
 export const deleteTopicDiscussion = createAsyncThunk(
   "discussions/delete",
-  async ({ discussion_id }) => {
-    const res = await DiscussionDataService.deleteTopicDiscussion({
-      discussion_id: discussion_id
-    })
-    .catch((err) => {
-      return err.response;
-    });
-    return res.data;
+  async ({ discussion_id }, { rejectWithValue }) => {
+    try {
+      const res = await DiscussionDataService.deleteTopicDiscussion({
+        discussion_id: discussion_id
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -91,6 +94,7 @@ const discussionSlice = createSlice({
     }
   },
   extraReducers: {
+    // all-discussions
     [retrieveTopicDiscussions.pending]: (state) => {
       state.isLoading = true;
       state.list = [];
@@ -101,16 +105,19 @@ const discussionSlice = createSlice({
         state.list.push(discussion);
       }
     },
+    [retrieveTopicDiscussions.rejected]: (state, action) => {
+      state.isLoading = false;
+      console.log(action.payload)
+    },
+    // create-discussion
     [createTopicDiscussion.fulfilled]: (state, action) => {
       state.list.push(action.payload.discussion);
     },
-    [retrieveDiscussionByUrl.pending]: (state) => {
-      state.isLoading = true;
-    },
+    // url-discussion
     [retrieveDiscussionByUrl.fulfilled]: (state, action) => {
-      state.isLoading = false;
       state.current = action.payload;
     },
+    // delete-discussion
     [deleteTopicDiscussion.fulfilled]: (state) => {
       state.isLoading = false;
       if (state.list.length !== 0) {
@@ -118,8 +125,8 @@ const discussionSlice = createSlice({
       } 
       state.current = {};
     },
+    //update-discussion
     [updateTopicDiscussion.fulfilled]: (state, action) => {
-      console.log("here")
       state.isLoading = false;
       if (state.list.length !== 0) {
         const index = state.list.findIndex(discussion => discussion._id === state.current._id);
@@ -129,7 +136,6 @@ const discussionSlice = createSlice({
     },
     [updateTopicDiscussion.rejected]: (state, action) => {
       console.log(action.payload)
-      
     }
   },
 });

@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 import { retrieveTopicByUrl, setCurrentTopic } from "../../slices/topic.slice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const TopicDetails = (props) => {
     const dispatch = useDispatch();
+    const { handle, isLoading, error } = useDispatchHandler();
     const state = useSelector((state) => state.topics);
     const topic = state.topic;
 
@@ -20,14 +22,17 @@ const TopicDetails = (props) => {
             }
         } else {
             // retrieve from api
-            dispatch(retrieveTopicByUrl(props.topic_url));
+            handle(retrieveTopicByUrl(props.topic_url), {});
         }
+        // eslint-disable-next-line
     }, [dispatch, props.topic_url, state.topics]);
+
   return (
     <div>
-        {state.isLoading 
-            ? <h1>Loading...</h1>
-            : <div>
+        {isLoading && <h1>Loading...</h1>}
+        {error && <h1>{ error }</h1>}
+        {topic &&
+            <div>
                 <h1>topic details {props.topic_url}</h1>
                 <h4>{topic.title}</h4>
                 <span>{topic.description}</span>
@@ -36,7 +41,7 @@ const TopicDetails = (props) => {
                 topic discussions
                 </Link>
             </div>
-        }
+        } 
     </div>
   );
 };

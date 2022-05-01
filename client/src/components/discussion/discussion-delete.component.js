@@ -14,7 +14,7 @@ const DeleteDiscussion = (discussion) => {
         <div>
             <p>Are you sure you want to delete <span>{discussion.current.title}</span>?</p>
             <button onClick={ () => deleteDiscussion() }>Yes</button>
-            <p>{ response }</p>
+            {response && <p>{ response.message }</p>}
             {isLoading && <h1>Loading...</h1>}
             {error && <h1>{error}</h1>}
         </div>

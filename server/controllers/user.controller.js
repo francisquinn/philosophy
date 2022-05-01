@@ -4,43 +4,46 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const privateKey = fs.readFileSync('jwtRS256.key');
 
-const login = (req, res) => {
+const login = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  User.findOne({ email: email })
-    .then((user) => {
-      if (user == null) {
-        res.status(400).send({ staus: 400, message: "user not found" });
-        return;
-      }
-      // check password
-      validatePassword(password, user.password)
-        .then(result => {
-          if (!result) {
-            res.status(400).send({ staus: 400, message: "user not found" });
-            return;
-          }
-          // sign JWT token
-          const token = jwt.sign(
-            { id: user._id }, 
-            privateKey,
-            { algorithm: 'RS256', expiresIn: '10m' });
+  User.findOne({ email: email }, (err, user) => {
+    if (err) {
+      return handleError(err);
+    }
+    if (user == null) {
+      res.status(400).send({ message: "user not found" });
+      return;
+    }
 
-            if (!token) {
-              res.status(400).send({ staus: 400, message: "authenication error" });
-              return;
-            }
+    //check password
+    validatePassword(password, user.password)
+      .then((result) => {
+        if (!result) {
+          res.status(400).send({ message: "invalid password" });
+          return;
+        }
+        // sign JWT token
+        const token = jwt.sign(
+          { id: user._id }, 
+          privateKey,
+          { algorithm: 'RS256' }
+        );
 
-            res.cookie('token', token, {
-              httpOnly: true,
-              secure: false,
-              expires: new Date(Date.now() + 90000000),
-            });
+        if (!token) {
+          res.status(400).send({ message: "authenication error" });
+          return;
+        }
 
-            res.status(200).send({ status: 200, message: "login successful!" });
+        res.cookie('token', token, {
+          httpOnly: true,
+          secure: false,
+          expires: new Date(Date.now() + 90000000),
         });
-    })
-    .catch((err) => console.log(err));
+
+        res.status(200).send({ message: "login successful!" });
+      });
+  });
 };
 
 const register = (req, res) => {
@@ -49,12 +52,10 @@ const register = (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
-
   const regVal = registerValidation(firstName, lastName, username, email, password);
   
   if (regVal.status == 400) {
-    res.status(400).send({ status: 400, message: regVal.message });
-    return;
+    return res.status(400).send({ status: 400, message: regVal.message });
   }
 
   hashPassword(password)
@@ -65,7 +66,7 @@ const register = (req, res) => {
         username: username,
         email: email,
         password: hash,
-      }).then(res.status(200).send({ status: 200, message: regVal.message }))
+      }).then(res.status(200).send({ message: regVal.message }))
         .catch((err) => console.log(err));
     })
 };
@@ -108,31 +109,13 @@ const validatePassword = async (password, hash) => {
 };
 
 const getUserInfo = (req, res) => {
-  User.findById(res.locals.user)
-    .then((user) => {
-      res.status(200).send({ username: user.username });
-    })
-    .catch((err) => console.log(err))
-};
-
-const refresh = (req, res) => {
-  const refreshToken = req.body.token;
-  if (refreshToken == null) {
-    console.log("no token")
-  }
-  // check if token in database
-
-  // jwt verify refresh token
-
-  // create access token
-
-  // return new access token
-
-  // logout will remove refresh token from db
+  User.findById(res.locals.user, (err, user) => {
+    if (err) return handleError(err);
+    return res.status(200).send({ username: user.username });
+  });
 };
 
 const logout = (req, res) => {
-  console.log('logout');
   res.cookie('token', '', { maxAge: 1 });
   res.status(302).send({ message: 'logout successful' });
 };
@@ -141,6 +124,5 @@ module.exports = {
   login,
   register,
   getUserInfo,
-  refresh,
   logout,
 };

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { togglePopUpWindow } from "../../slices/popup.slice";
+import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const DiscussionDetails = (props) => {
   const topic_url = props.topic_url;
@@ -11,10 +12,11 @@ const DiscussionDetails = (props) => {
   const state = useSelector((state) => state);
   const discussion = state.discussions.current;
   const user = state.user.info;
+  const { handle, isLoading, error } = useDispatchHandler();
   
   useEffect(() => {
-    if (!(state.discussions.list.length > 0)) {
-      dispatch(retrieveDiscussionByUrl({ topic_url, discussion_url }));
+    if (state.discussions.list.length < 1) {
+      handle(retrieveDiscussionByUrl({ topic_url, discussion_url }), {});
       return;
     }
     // retrieve from store & set topic
@@ -24,10 +26,13 @@ const DiscussionDetails = (props) => {
         return;
       }
     }
-}, [dispatch, props, discussion, state.discussions.list, topic_url, discussion_url]);
+    // eslint-disable-next-line
+}, [state.discussions.list, topic_url, discussion_url]);
 
   return (
     <div>
+      {isLoading && <h1>Loading...</h1>}
+      {error && <h1>{error}</h1>}
       <>
       {discussion.author === user.username && (
         <div>

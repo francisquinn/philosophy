@@ -28,7 +28,7 @@ const CreateDiscussion = () => {
                     <input type="text" placeholder="description" ref={description} />
                     <br />
                     <input type="submit" value="Submit" onClick={() => submitDiscussion()} />
-                    <p>{response}</p>
+                    {response && <p>{ response.message }</p>}
                     {isLoading && <h1>Loading...</h1>}
                     {error && <h1>{error}</h1>}
                 </div>

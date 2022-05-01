@@ -11,18 +11,22 @@ const initialState = {
 
 export const userLogin = createAsyncThunk(
   "user/login",
-  async ({ email, password }) => {
-    const res = await UserDataService.login({
-      email: email,
-      password: password,
-    });
-    return res.data;
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const res = await UserDataService.login({
+        email: email,
+        password: password,
+      });
+      return res.data;
+    } catch(err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const userRegister = createAsyncThunk(
   "user/register",
-  async ({ firstName, lastName, username, email, password }) => {
+  async ({ firstName, lastName, username, email, password }, { rejectWithValue }) => {
     try {
       const res = await UserDataService.register({
         firstName: firstName,
@@ -31,24 +35,10 @@ export const userRegister = createAsyncThunk(
         email: email,
         password: password,
       });
-
       return res.data;
-
     } catch (err) {
-      return err.response.data;
+      return rejectWithValue(err.response.data);
     }
-    
-
-
-
-
-    // .catch((err) => {
-    //   return err.response;
-    // })
-
-
-  
-    
   }
 );
 
@@ -66,9 +56,14 @@ export const checkUserLoggedStatus = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   "user/logout",
-  async () => {
-    const res = await UserDataService.logout();
-    return res.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await UserDataService.logout();
+      return res.data;
+    } catch(err) {
+      return rejectWithValue(err.response.data);
+    }
+
   }
 );
 

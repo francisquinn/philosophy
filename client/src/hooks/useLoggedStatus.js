@@ -8,8 +8,8 @@ export default function useUserLoggedStatus() {
         dispatch(checkUserLoggedStatus())
             .unwrap()
             .then(() => dispatch(userLoggedState(true)))
-            .catch((rejectedValueOrSerializedError) => {
-                console.log(rejectedValueOrSerializedError)
+            .catch((err) => {
+                console.log(err)
             });
         // eslint-disable-next-line
     }, []); 
