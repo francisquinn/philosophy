@@ -1,0 +1,17 @@
+%flex-layout {
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.navbar {
+    @extend %flex-layout;
+    box-shadow: $base-box-shadow;
+
+    .site-title {
+        font-size: $font-size-lg;
+    }
+    .container {
+        @extend %flex-layout;
+    }
+}

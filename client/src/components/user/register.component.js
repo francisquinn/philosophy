@@ -9,8 +9,6 @@ import { useDispatch } from "react-redux";
 const Register = () => {
   const dispatch = useDispatch();
   /* User details */
-  const firstName = useRef(null);
-  const lastName = useRef(null);
   const username = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
@@ -20,8 +18,6 @@ const Register = () => {
     e.preventDefault();
     handle(
       userRegister({
-        firstName: firstName.current.value,
-        lastName: lastName.current.value,
         username: username.current.value,
         email: email.current.value,
         password: password.current.value,
@@ -35,10 +31,6 @@ const Register = () => {
         <div>
             <form onSubmit={submitRegForm}>
             <h1>register</h1>
-            <input type="text" placeholder="first" ref={firstName} />
-            <br />
-            <input type="text" placeholder="last" ref={lastName} />
-            <br />
             <input type="text" placeholder="username" ref={username} />
             <br />
             <input type="text" placeholder="email" ref={email} />

@@ -17,20 +17,30 @@ const useDispatchHandler = () => {
             .then((res) => {
                 setIsLoading(false);
                 setResponse(res);
-                if (config.popDown) {
-                    setTimeout(() => {
-                        if (config.nav) {
-                            navigate(-1); 
-                        }
-                        dispatch(togglePopUpWindow({ component: null }));
-                    }, 2000)
-                }
+                handleConfig(config);
             })
             .catch((err) => {
                 setIsLoading(false);
                 setError(err.message);
             });
     }
+
+    const handleConfig = (config) => {
+        if (config.reload) {
+            window.location.reload();
+            return;
+        }
+        
+        if (config.popDown) {
+            setTimeout(() => {
+                if (config.nav) {
+                    navigate(-1); 
+                }
+                dispatch(togglePopUpWindow({ component: null }));
+            }, 2000)
+        }
+    };
+    
     return { handle, isLoading, error, response };
 }
 

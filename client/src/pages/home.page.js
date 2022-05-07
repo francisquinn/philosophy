@@ -1,6 +1,6 @@
 const Home = () => {
   return (
-    <div>
+    <div className="sass-test">
       <h1>Home page</h1>
     </div>
   );

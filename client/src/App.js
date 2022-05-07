@@ -25,9 +25,9 @@ function App() {
           <PopUpWindow />
         </Suspense>
       </div>
-      <div className="App container" id="app-body">
+      <div className="App container bg-info" id="app-body">
         <div className="row">
-          <div className="col">
+          <div className="col-12-xl col-12-lg col-12-md col-12-sm col-12-xs">
             <NavBar />
           </div>
         </div>

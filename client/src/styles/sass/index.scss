@@ -1,0 +1,22 @@
+// imports from top to bottom order dependency
+// variables
+@import 'variables';
+
+// base & layout
+@import 'base';
+@import 'breakpoints';
+@import 'grid';
+@import 'text';
+
+// colours
+@import 'colors';
+
+
+// components (buttons, card, nav)
+@import 'components/card';
+@import 'components/button';
+@import 'components/navbar';
+
+
+// utilities (margin, padding)
+@import 'utilities';

@@ -47,12 +47,10 @@ const login = async (req, res) => {
 };
 
 const register = (req, res) => {
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
-  const regVal = registerValidation(firstName, lastName, username, email, password);
+  const regVal = registerValidation(username, email, password);
   
   if (regVal.status == 400) {
     return res.status(400).send({ status: 400, message: regVal.message });
@@ -61,8 +59,6 @@ const register = (req, res) => {
   hashPassword(password)
     .then(hash => {
       User.create({
-        firstName: firstName,
-        lastName: lastName,
         username: username,
         email: email,
         password: hash,
@@ -72,15 +68,7 @@ const register = (req, res) => {
 };
 
 // server form validation for the registration
-const registerValidation = (firstName, lastName, username, email, password) => {
-  if (firstName.length < 2) {
-    return { status: 400, message: "first name must be longer than 2 characters" };
-  }
-
-  if (lastName.length < 2) {
-    return { status: 400, message: "last name must be longer than 2 characters" };
-  }
-
+const registerValidation = (username, email, password) => {
   if (username.length <= 2) {
     return { status: 400, message: "username must be longer than 2 characters" };
   }

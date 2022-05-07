@@ -7,7 +7,7 @@ const NavMenu = () => {
   const state = useSelector((state) => state.menu);
   
   return (
-    <div>
+    <div className="bg-info">
       {width > 575 && (
         <div className="nav-menu">
           {state.items.map((item) => (

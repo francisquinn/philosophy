@@ -18,36 +18,37 @@ const NavBar = () => {
   // };
 
   return (
-    <div className="navbar">
+    <div>
       {width > 575 ? (
-        <div>
-          <span>philosophy</span>
-          <span>{width}</span>
-          {state.user.isLoggedIn ? (
-            <div>
-              <button onClick={() => dispatch(togglePopUpWindow({ component: "CREATE" }))}>Create discussion</button>
-              <button onClick={() => dispatch(togglePopUpWindow({ component: "LOGOUT" })) }>Logout</button>
-            </div>
-          ) : (
+        <div className="navbar pt-2 pb-2 bg-primary">
+            <span>philosophy</span>
+            <span>{width}</span>
+            {state.user.isLoggedIn ? (
               <div>
-                <div className="login-item">
-                  <button onClick={() => dispatch(togglePopUpWindow({ component: "LOGIN" }))}>Login</button>
-                </div>
-                <div className="signup-item">
-                  <button onClick={() => dispatch(togglePopUpWindow({ component: "REGISTER" }))}>Register</button>
-                </div>
+                <button onClick={() => dispatch(togglePopUpWindow({ component: "CREATE" }))}>Create discussion</button>
+                <button onClick={() => dispatch(togglePopUpWindow({ component: "LOGOUT" })) }>Logout</button>
               </div>
-            )
-          }
+            ) : (
+                <div>
+                  <div className="login-item">
+                    <button onClick={() => dispatch(togglePopUpWindow({ component: "LOGIN" }))}>Login</button>
+                  </div>
+                  <div className="signup-item">
+                    <button onClick={() => dispatch(togglePopUpWindow({ component: "REGISTER" }))}>Register</button>
+                  </div>
+                </div>
+              )
+            }
         </div>
       ) : (
-        <div>
+        <div className="navbar pt-2 pb-2 bg-primary justify-center">
           <Icon
             id="hamburger"
             onClick={() => dispatch(toggleMenu())}
             path={mdiMenu}
             size={1.5}
           />
+          <span>philosophy</span>
           {state.menu.toggle && (
             <div className="nav-menu-mobile">
               {state.menu.items.map((item) => (

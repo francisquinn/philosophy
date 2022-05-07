@@ -3,11 +3,11 @@ import {
   userLogin
 } from "../../slices/user.slice";
 import { navigate } from "../../slices/popup.slice";
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setError] = useState(null);
+  const { handle, isLoading, error } = useDispatchHandler();
   /* User details */
   const email = useRef(null);
   const password = useRef(null);
@@ -15,25 +15,18 @@ const Login = () => {
 
   const submitLoginForm = (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    dispatch(
+    handle(
       userLogin({
         email: email.current.value,
         password: password.current.value,
-      })
-    )
-    .unwrap()
-    .then(() =>  window.location.reload())
-    .catch((err) => setError(err.message));
-
-    setIsLoading(false);
+      }), { reload: true });
   };
 
   return (
     <div>
-      {isError && <h1>{ isError }</h1>}
+      {error && <h1>{ error }</h1>}
         <div>
-          <form onSubmit={submitLoginForm}>
+          <form onSubmit={ submitLoginForm }>
             <h1>login</h1>
             <input type="text" placeholder="email" ref={email} />
             <br />
