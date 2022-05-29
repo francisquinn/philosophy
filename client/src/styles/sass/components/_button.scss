@@ -1,20 +1,27 @@
-@mixin btn($bg-color: #e2e2e2) {    // default value
+@mixin btn($bg-color: $white) {    // default value
     text-decoration: none;
     cursor: pointer;
     display: inline-block;
-    border: 0;
-    padding: $base-padding $base-padding * 2;
-    border-radius: $base-border-radius;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: $base-padding * 2  $base-padding * 4;
+    border-radius: $base-border-radius * 2;
     background-color: $bg-color;
+    transition: 0.3s;
 }
 
 .btn {
     @include btn;
+    &:hover {
+        background-color: #f1f1f1;
+    }
 }
 
 @each $key, $val in $colors {
     .btn-#{$key} {
         @include btn($val);
+        color: $white;
         &:hover {
             background-color: lighten($val, 5);
         }

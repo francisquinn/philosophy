@@ -1,15 +1,20 @@
 // colors
-$primary: #326dee;
-$secondary: #1ac888;
-$error: #d32752;
-$info: #f6c31c;
+$orange-primary: #FF9F1C;
+$orange-secondary: #FFBF69;
+$turquoise-primary: #2EC4B6;
+$turquoise-secondary: #CBF3F0;
+$white: #FFFFFF;
+$primary: blue;
+$info: orange;
 
 // color palette
 $colors: (
+    "org-primary": $orange-primary,
+    "org-secondary": $orange-secondary,
+    "turq-primary": $turquoise-primary,
+    "turq-secondary": $turquoise-secondary,
     "primary": $primary,
-    "secondary": $secondary,
-    "error": $error,
-    "info": $info,
+    "info": $info
 );
 
 // spacing
@@ -18,7 +23,7 @@ $base-margin: 5px;
 
 // borders
 $base-border-thickness: 1px;
-$base-border-radius: 20px;
+$base-border-radius: 10px;
 
 // box-shadow
 $base-box-shadow: 1px 3px 5px rgba(0,0,0,0.1);

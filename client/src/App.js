@@ -6,8 +6,10 @@ import NavMenu from './components/navigation/nav-menu.component';
 import useUserLoggedStatus from "./hooks/useLoggedStatus";
 
 /** Pages */
-const Home = React.lazy(() => import("./pages/home.page"));
+const Discover = React.lazy(() => import("./pages/discover.page"));
 const About = React.lazy(() => import('./pages/about.page'));
+const Books = React.lazy(() => import('./pages/books.page'));
+const Philosophers = React.lazy(() => import('./pages/philosophers.page'));
 const Topics = React.lazy(() => import('./pages/topic/topics.page'));
 const TopicDetailsPage = React.lazy(() => import('./pages/topic/topic.details'));
 const Discussions = React.lazy(() => import('./pages/discussion/discussion.page'));
@@ -25,18 +27,20 @@ function App() {
           <PopUpWindow />
         </Suspense>
       </div>
-      <div className="App container bg-info" id="app-body">
+      <div className="App container" id="app-body">
         <div className="row">
-          <div className="col-12-xl col-12-lg col-12-md col-12-sm col-12-xs">
+          <div className="col-100">
             <NavBar />
           </div>
         </div>
         <div className="row">
-          <div className="col col-lg-9 col-md-8 col-sm-8 col-12">
+          <div className="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-xs-12">
             <div className="route-view">
               {/* router */}
               <Suspense fallback={'<div>Loading...</div>'}>
                 <Routes>
+                  <Route path="/books" element={<Books />} />
+                  <Route path="/philosophers" element={<Philosophers />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/topics" element={<Topics />} />
                   <Route path="/topics/:topic_url" element={<TopicDetailsPage />} />
@@ -48,12 +52,12 @@ function App() {
                     path="/topics/:topic_url/discussions/:discussion_url"
                     element={<DiscussionDetails />}
                   />
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Discover />} />
                 </Routes>
               </Suspense>
             </div>
           </div>
-          <div className="col col-lg-3 col-md-4 col-sm-4 col-12">
+          <div className="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12">
             <NavMenu />
           </div>
         </div>

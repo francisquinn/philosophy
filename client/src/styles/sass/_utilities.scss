@@ -12,6 +12,16 @@ $utilities: (
           "5": $base-padding * 5,
       ),
   ),
+  "padding-y": (
+      "prefix": "py",
+      "values": (
+          "1": $base-padding,
+          "2": $base-padding * 2,
+          "3": $base-padding * 3,
+          "4": $base-padding * 4,
+          "5": $base-padding * 5,
+      ),
+  ),
   "padding-left": (
       "prefix": "pl",
       "values": (
@@ -170,7 +180,13 @@ $utilities: (
             .#{$prefix} {
                 #{$property}: $v;
             }
-        } @else {
+        } 
+        @if ($prefix == "py") {
+          .#{$prefix}-#{$k} {
+            padding: $v 0;
+          }
+        }
+        @else {
             .#{$prefix}-#{$k} {
                 #{$property}: $v;
             }

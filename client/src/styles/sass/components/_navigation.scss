@@ -1,0 +1,34 @@
+%flex-layout {
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.navbar {
+    @extend %flex-layout;
+    border: 2px solid blue;
+
+    .site-title {
+        font-size: $font-size-lg;
+    }
+    .container {
+        @extend %flex-layout;
+    }
+}
+
+.nav-footer {
+    width: 70%;
+    border: 2px solid red;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 10px;
+    padding: $base-padding * 2;
+}
+
+.nav-menu {
+    padding: $base-padding * 2;
+    background-color: $white;
+    border: 2px solid orange;
+    margin-top: $base-margin * 4;
+}

@@ -7,6 +7,12 @@ $grid-gaps: (
     "2": 20px,
     "3": 30px
 );
+$grid-col-base: (
+    "33": 33.33%,
+    "50": 50%,
+    "66": 66.66%,
+    "100": 100%
+);
 $layout-values: flex-start, flex-end, center, space-between, space-around;
 
 // base layout classes
@@ -21,6 +27,15 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
 .row {
     display: flex;
     flex-flow: row wrap;
+}
+
+// base col
+@each $key, $val in $grid-col-base {
+    .col-#{$key} {
+        box-sizing: border-box;
+        flex-grow: 0;
+        width: $val;
+    }
 }
 
 // grid gaps
@@ -44,7 +59,7 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
 // col classes
 @include xs {
     @for $i from 1 through $grid-columns {
-        .col-#{$i}-xs {
+        .col-xs-#{$i} {
             box-sizing: border-box;
             flex-grow: 0;
             width: math.div($i * 100%, $grid-columns);
@@ -54,7 +69,7 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
 
 @include sm {
     @for $i from 1 through $grid-columns {
-        .col-#{$i}-sm {
+        .col-sm-#{$i} {
             box-sizing: border-box;
             flex-grow: 0;
             width: math.div($i * 100%, $grid-columns);
@@ -64,7 +79,7 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
 
 @include md {
     @for $i from 1 through $grid-columns {
-        .col-#{$i}-md {
+        .col-md-#{$i} {
             box-sizing: border-box;
             flex-grow: 0;
             width: math.div($i * 100%, $grid-columns);
@@ -74,7 +89,7 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
 
 @include lg {
     @for $i from 1 through $grid-columns {
-        .col-#{$i}-lg {
+        .col-lg-#{$i} {
             box-sizing: border-box;
             flex-grow: 0;
             width: math.div($i * 100%, $grid-columns);
@@ -84,7 +99,7 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
 
 @include xl {
     @for $i from 1 through $grid-columns {
-        .col-#{$i}-xl {
+        .col-xl-#{$i} {
             box-sizing: border-box;
             flex-grow: 0;
             width: math.div($i * 100%, $grid-columns);

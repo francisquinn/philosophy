@@ -7,17 +7,17 @@ const NavMenu = () => {
   const state = useSelector((state) => state.menu);
   
   return (
-    <div className="bg-info">
-      {width > 575 && (
+    <>
+      {width > 700 && (
         <div className="nav-menu">
           {state.items.map((item) => (
-            <div className="menu-item" key={item.id}>
+            <div className="p-2" key={item.id}>
               <Link to={item.route}>{item.text}</Link>
             </div>
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
