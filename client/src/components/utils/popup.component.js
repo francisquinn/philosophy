@@ -11,37 +11,38 @@ const Register = React.lazy(() => import('../user/register.component'));
 const Logout = React.lazy(() => import('../user/logout.component'));
 
 const PopUpWindow = () => {
-  const state = useSelector((state) => state);
-  const popup = state.popup;
-  const discussion = state.discussions.current;
+  const popup = useSelector((state) => state.popup);
+  const discussion = useSelector((state) => state.discussions.current);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const elements = document.getElementById("app-body");
+    const appBody = document.getElementById("app-body");
+    const body = document.getElementsByTagName("body")[0];
     if (popup.window) {
-      elements.style.opacity = 0.3;
-      elements.style.pointerEvents = "none";
+      appBody.classList.add('popup-container-active');
+      body.style.overflow = 'hidden';
     } else {
-      elements.style.opacity = 1;
-      elements.style.pointerEvents = "auto";
+      appBody.classList.remove('popup-container-active');
+      body.style.overflow = '';
     }
   }, [popup.window]);
 
   return (
-    <div>
-    {popup.window &&
     <>
-       {popup.component === "LOGIN" && <Login />}
-       {popup.component === "REGISTER" && <Register />}
-       {popup.component === "LOGOUT" && <Logout />}
-       {popup.component === "EDIT" && <EditDiscussion current={discussion} />}
-       {popup.component === "CREATE" && <CreateDiscussion />}
-       {popup.component === "DELETE" && <DeleteDiscussion current={discussion} />}
-        <p>{popup.component}</p>
-        <button onClick={() => dispatch(togglePopUpWindow({ component: null }))}>Close</button>
-    </>
+    {popup.window &&
+      <div className="popup-container">
+        <div className="popup-wrapper">
+          {popup.component === "LOGIN" && <Login />}
+          {popup.component === "REGISTER" && <Register />}
+          {popup.component === "LOGOUT" && <Logout />}
+          {popup.component === "EDIT" && <EditDiscussion current={discussion} />}
+          {popup.component === "CREATE" && <CreateDiscussion />}
+          {popup.component === "DELETE" && <DeleteDiscussion current={discussion} />}
+          <button className="popup-close" onClick={() => dispatch(togglePopUpWindow({ component: null }))}>Close</button>
+        </div>
+      </div>
     }
-    </div>
+    </>
   );
 };
 

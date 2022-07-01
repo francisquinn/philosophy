@@ -1,7 +1,12 @@
 /* reset styles */
 * {
+  box-sizing: border-box;
   color: inherit;
   margin: 0;
+}
+
+body {
+  padding-top: $base-padding-top-body;
 }
 
 ul {

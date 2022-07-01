@@ -5,3 +5,9 @@ $text-align: center, left, right, justify;
         text-align: $val;
     }
 }
+
+@each $key, $val in $colors {
+    .text-#{$key} {
+        color: $val;
+    }
+}

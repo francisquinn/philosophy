@@ -6,7 +6,7 @@
     font-size: 14px;
     font-weight: bold;
     padding: $base-padding * 2  $base-padding * 4;
-    border-radius: $base-border-radius * 2;
+    border-radius: $base-border-radius * 5;
     background-color: $bg-color;
     transition: 0.3s;
 }
@@ -18,6 +18,12 @@
     }
 }
 
+.btn-disabled {
+    opacity: 50%;
+    cursor: default !important;
+    pointer-events: none !important;
+}
+
 @each $key, $val in $colors {
     .btn-#{$key} {
         @include btn($val);
@@ -26,4 +32,14 @@
             background-color: lighten($val, 5);
         }
     }
+
+    .btn-form-#{$key} {
+        @include btn($val);
+        color: $white;
+        padding: $base-padding * 3  $base-padding * 4;
+        &:hover {
+            background-color: lighten($val, 5);
+        }
+    }
+
 }

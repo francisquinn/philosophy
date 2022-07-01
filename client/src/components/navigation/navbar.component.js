@@ -17,7 +17,7 @@ const NavBar = () => {
   return (
     <>
       {width > 700 ? (
-        <div className="navbar py-2 justify-space-between">
+        <div className="navbar">
           <div>
             philosophy{width}
           </div>
@@ -37,7 +37,7 @@ const NavBar = () => {
         </div>
       ) : (
         <>
-          <div className="navbar py-2">
+          <div className="navbar">
             {/* <Icon
               id="hamburger"
               onClick={() => dispatch(toggleMenu())}

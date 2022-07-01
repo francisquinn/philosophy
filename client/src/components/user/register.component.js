@@ -25,26 +25,31 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <>
       {error && <h1>{error}</h1>}
       {isLoading && <h1>loading...</h1>}
-        <div>
-            <form onSubmit={submitRegForm}>
-            <h1>register</h1>
-            <input type="text" placeholder="username" ref={username} />
-            <br />
-            <input type="text" placeholder="email" ref={email} />
-            <br />
-            <input type="password" placeholder="password" ref={password} />
-            <br />
-            <button type="submit">submit</button>
-            <p onClick={() => dispatch(navigate({ component: "LOGIN" }))}>
-                login
-            </p>
-            {response && <p>{ response.message }</p>}
-            </form> 
-        </div>
-    </div>
+        <form className="form-container" onSubmit={submitRegForm}>
+          <h1>register</h1>
+          <div className="form-item">
+            <input type="text" className="form-input" placeholder="username" ref={username} />
+          </div>
+          <div className="form-item">
+            <input type="text" className="form-input" placeholder="email" ref={email} />
+          </div>
+          <div className="form-item">
+            <input type="password" className="form-input" placeholder="password" ref={password} />
+          </div>
+          <div className="form-item">
+            <button type="submit" className="btn-form-turq-primary" style={{ width: "100%" }}>
+              REGISTER
+            </button>
+          </div>
+          <p className="mt-3">
+            Already have an account? <span className="text-org-primary" onClick={() => dispatch(navigate({ component: "LOGIN" }))}>Login</span>
+          </p>
+          {response && <p>{ response.message }</p>}
+        </form> 
+    </>
   );
 };
 

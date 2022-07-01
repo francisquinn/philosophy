@@ -22,11 +22,9 @@ function App() {
   useUserLoggedStatus();
   return (
     <Router>
-      <div className="popup-container">
-        <Suspense fallback={'<div>Loading...</div>'}>
-          <PopUpWindow />
-        </Suspense>
-      </div>
+      <Suspense fallback={'<div>Loading...</div>'}>
+        <PopUpWindow />
+      </Suspense>
       <div className="App container" id="app-body">
         <div className="row">
           <div className="col-100">

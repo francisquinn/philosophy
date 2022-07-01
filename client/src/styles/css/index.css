@@ -1,7 +1,12 @@
 /* reset styles */
 * {
+  box-sizing: border-box;
   color: inherit;
   margin: 0;
+}
+
+body {
+  padding-top: 75px;
 }
 
 ul {
@@ -531,6 +536,30 @@ img {
   color: #FF9F1C;
 }
 
+.text-org-secondary {
+  color: #FFBF69;
+}
+
+.text-turq-primary {
+  color: #2EC4B6;
+}
+
+.text-turq-secondary {
+  color: #CBF3F0;
+}
+
+.text-primary {
+  color: blue;
+}
+
+.text-info {
+  color: orange;
+}
+
+.text-org-primary {
+  color: #FF9F1C;
+}
+
 .bg-org-primary {
   background-color: #FF9F1C;
 }
@@ -602,12 +631,18 @@ img {
   font-size: 14px;
   font-weight: bold;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: #FFFFFF;
   transition: 0.3s;
 }
 .btn:hover {
   background-color: #f1f1f1;
+}
+
+.btn-disabled {
+  opacity: 50%;
+  cursor: default !important;
+  pointer-events: none !important;
 }
 
 .btn-org-primary {
@@ -618,12 +653,30 @@ img {
   font-size: 14px;
   font-weight: bold;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: #FF9F1C;
   transition: 0.3s;
   color: #FFFFFF;
 }
 .btn-org-primary:hover {
+  background-color: #ffaa36;
+}
+
+.btn-form-org-primary {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 50px;
+  background-color: #FF9F1C;
+  transition: 0.3s;
+  color: #FFFFFF;
+  padding: 15px 20px;
+}
+.btn-form-org-primary:hover {
   background-color: #ffaa36;
 }
 
@@ -635,12 +688,30 @@ img {
   font-size: 14px;
   font-weight: bold;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: #FFBF69;
   transition: 0.3s;
   color: #FFFFFF;
 }
 .btn-org-secondary:hover {
+  background-color: #ffca83;
+}
+
+.btn-form-org-secondary {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 50px;
+  background-color: #FFBF69;
+  transition: 0.3s;
+  color: #FFFFFF;
+  padding: 15px 20px;
+}
+.btn-form-org-secondary:hover {
   background-color: #ffca83;
 }
 
@@ -652,12 +723,30 @@ img {
   font-size: 14px;
   font-weight: bold;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: #2EC4B6;
   transition: 0.3s;
   color: #FFFFFF;
 }
 .btn-turq-primary:hover {
+  background-color: #3bd1c3;
+}
+
+.btn-form-turq-primary {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 50px;
+  background-color: #2EC4B6;
+  transition: 0.3s;
+  color: #FFFFFF;
+  padding: 15px 20px;
+}
+.btn-form-turq-primary:hover {
   background-color: #3bd1c3;
 }
 
@@ -669,12 +758,30 @@ img {
   font-size: 14px;
   font-weight: bold;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: #CBF3F0;
   transition: 0.3s;
   color: #FFFFFF;
 }
 .btn-turq-secondary:hover {
+  background-color: #e0f8f6;
+}
+
+.btn-form-turq-secondary {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 50px;
+  background-color: #CBF3F0;
+  transition: 0.3s;
+  color: #FFFFFF;
+  padding: 15px 20px;
+}
+.btn-form-turq-secondary:hover {
   background-color: #e0f8f6;
 }
 
@@ -686,12 +793,30 @@ img {
   font-size: 14px;
   font-weight: bold;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: blue;
   transition: 0.3s;
   color: #FFFFFF;
 }
 .btn-primary:hover {
+  background-color: #1a1aff;
+}
+
+.btn-form-primary {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 50px;
+  background-color: blue;
+  transition: 0.3s;
+  color: #FFFFFF;
+  padding: 15px 20px;
+}
+.btn-form-primary:hover {
   background-color: #1a1aff;
 }
 
@@ -703,7 +828,7 @@ img {
   font-size: 14px;
   font-weight: bold;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: orange;
   transition: 0.3s;
   color: #FFFFFF;
@@ -712,33 +837,107 @@ img {
   background-color: #ffae1a;
 }
 
-.navbar .container, .navbar {
+.btn-form-info {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 50px;
+  background-color: orange;
+  transition: 0.3s;
+  color: #FFFFFF;
+  padding: 15px 20px;
+}
+.btn-form-info:hover {
+  background-color: #ffae1a;
+}
+
+.nav-footer, .navbar .container, .navbar {
   width: 100%;
   display: flex;
   box-sizing: border-box;
 }
 
 .navbar {
-  border: 2px solid blue;
+  position: fixed;
+  padding: 10px;
+  top: 0;
+  right: 0;
+  transition: top 0.3s;
+  border-bottom: 2px solid blue;
+  background-color: white;
+  justify-content: space-between;
 }
 .navbar .site-title {
   font-size: 21px;
 }
 .nav-footer {
-  width: 70%;
-  border: 2px solid red;
+  justify-content: space-around;
+  background-color: white;
+  width: 80%;
+  border: 1px solid red;
+  border-radius: 50px;
   position: fixed;
   left: 50%;
   transform: translate(-50%, 0);
   bottom: 10px;
-  padding: 10px;
+  padding: 15px;
 }
 
 .nav-menu {
+  position: sticky;
+  top: 75px;
   padding: 10px;
   background-color: #FFFFFF;
   border: 2px solid orange;
-  margin-top: 20px;
+}
+
+.popup-container {
+  position: fixed;
+  margin: auto;
+  padding: 15px;
+  background-color: white;
+  height: 85%;
+  max-width: 700px;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.popup-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.popup-close {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.popup-container-active {
+  opacity: 0.3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.form-container .form-item {
+  margin-top: 15px;
+}
+.form-container .form-item .form-input {
+  border: 1px solid #F1F1F1 !important;
+  padding: 15px 20px;
+  outline-color: #FFBF69;
+  width: 100%;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
 }
 
 .p-0 {
@@ -1087,6 +1286,18 @@ img {
 
 .d-inline-block {
   display: inline-block;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.pos-a {
+  position: absolute;
+}
+
+.pos-r {
+  position: relative;
 }
 
 .font-sm {

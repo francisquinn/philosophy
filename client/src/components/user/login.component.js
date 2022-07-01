@@ -13,6 +13,15 @@ const Login = () => {
   const password = useRef(null);
   const dispatch = useDispatch();
 
+  const handleformInputs = () => {
+    const b = document.querySelector('[data-login]');
+    if (email.current.value.length > 1 && password.current.value.length >= 8) {
+      b.classList.remove('btn-disabled');
+    } else {
+      b.classList.add('btn-disabled');
+    }
+  };
+ 
   const submitLoginForm = (e) => {
     e.preventDefault();
     handle(
@@ -23,16 +32,18 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <>
       {error && <h1>{ error }</h1>}
-        <div>
-          <form onSubmit={ submitLoginForm }>
-            <h1>login</h1>
-            <input type="text" placeholder="email" ref={email} />
-            <br />
-            <input type="password" placeholder="password" ref={password} />
-            <br />
-            <button type="submit">
+        <form className="form-container" onSubmit={ submitLoginForm } onChange={ handleformInputs }>
+          <h1>login</h1>
+          <div className="form-item">
+            <input type="text" className="form-input" placeholder="email" ref={email} />
+          </div>
+          <div className="form-item">
+            <input type="password" className="form-input" placeholder="password" ref={password} />
+          </div>
+          <div className="form-item">
+            <button type="submit" className="btn-form-org-primary btn-disabled w-100" data-login>
               {isLoading && (
                 <span
                   className="spinner-border spinner-border-sm"
@@ -40,14 +51,14 @@ const Login = () => {
                   aria-hidden="true"
                 ></span>
               )}
-              submit
+              LOGIN
             </button>
-            <span onClick={() => dispatch(navigate({ component: "REGISTER" }))}>
-              create an account
-            </span>
-          </form>
-        </div>
-    </div>
+          </div>
+          <p className="mt-3">
+            new to philosophy? <span className="text-turq-primary" onClick={() => dispatch(navigate({ component: "REGISTER" }))}>create an account</span>
+          </p>
+        </form>
+    </>
   );
 };
 

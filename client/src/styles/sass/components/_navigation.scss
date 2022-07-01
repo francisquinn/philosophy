@@ -6,7 +6,14 @@
 
 .navbar {
     @extend %flex-layout;
-    border: 2px solid blue;
+    position: fixed;
+    padding: $base-padding * 2;
+    top: 0;
+    right: 0;
+    transition: top 0.3s;
+    border-bottom: 2px solid blue;
+    background-color: white;
+    justify-content: space-between;
 
     .site-title {
         font-size: $font-size-lg;
@@ -17,18 +24,24 @@
 }
 
 .nav-footer {
-    width: 70%;
-    border: 2px solid red;
+    @extend %flex-layout;
+    justify-content: space-around;
+    background-color: white;
+    width: 80%;
+    border: 1px solid red;
+    border-radius: $base-border-radius * 5;
     position: fixed;
     left: 50%;
     transform: translate(-50%, 0);
     bottom: 10px;
-    padding: $base-padding * 2;
+    padding: $base-padding * 3;
 }
 
 .nav-menu {
+    position: sticky;
+    top: $base-padding-top-body;
     padding: $base-padding * 2;
     background-color: $white;
     border: 2px solid orange;
-    margin-top: $base-margin * 4;
+    // margin-top: $base-margin * 4;
 }

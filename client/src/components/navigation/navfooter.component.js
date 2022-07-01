@@ -8,7 +8,7 @@ const NavFooter = () => {
     const dispatch = useDispatch();
 
     return (
-        <div className="nav-footer d-flex justify-space-between">
+        <div className="nav-footer">
             {menu.footerItems.map((item) => (
                 <div key={item.id}>
                     {item.popup ? (

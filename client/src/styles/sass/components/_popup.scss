@@ -1,0 +1,31 @@
+.popup-container {
+    position: fixed;
+    margin: auto;
+    padding: $base-padding * 3;
+    background-color: white;
+    height: 85%;
+    max-width: 700px;
+    border-radius: $base-border-radius * 2 $base-border-radius * 2 0 0;
+    box-shadow: 0 -3px 8px rgba(0,0,0,0.3);;
+    z-index: 9999;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.popup-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+.popup-close {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.popup-container-active {
+    opacity: 0.3;
+    pointer-events: none;
+    overflow: hidden;
+}

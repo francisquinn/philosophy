@@ -158,6 +158,19 @@ $utilities: (
       "inline-block": inline-block
     )
   ),
+  "width": (
+    "prefix": "w",
+    "values" : (
+      "100": 100%
+    )
+  ),
+  "position": (
+    "prefix": "pos",
+    "values": (
+      "a": absolute,
+      "r": relative
+    )
+  ),
   "font-size": (
     "prefix": "font",
     "values": (
