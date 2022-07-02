@@ -1,39 +1,29 @@
-import { useRef } from "react";
 import { createTopicDiscussion } from "../../slices/discussion.slice";
 import { useSelector } from "react-redux";
-import useDispatchHandler from "../../hooks/useDispatchHandler";
+import Form from "../utils/form.component";
+import FormInput from "../utils/form-input.component";
 
 const CreateDiscussion = () => {
-    const { handle, isLoading, error, response } = useDispatchHandler();
-    const user = useSelector((state) => state.user);
-    const title = useRef(null);
-    const description = useRef(null);
-
-    const submitDiscussion = () => {
-        handle(createTopicDiscussion({
-            title: title.current.value,
-            description: description.current.value,
-            topic_url: "test" // testing
-        }), { popDown: true });
-    };
+    const state = useSelector((state) => state);
+    const user = state.user;
+    
     return (
-        <div>
+        <>
             {!user.isLoggedIn ? (
                 <p>no access sir</p>
             ) : (
-                <div>
-                    <h1>Create discussion</h1>
-                    <input type="text" placeholder="title" ref={title} />
-                    <br />
-                    <input type="text" placeholder="description" ref={description} />
-                    <br />
-                    <input type="submit" value="Submit" onClick={() => submitDiscussion()} />
-                    {response && <p>{ response.message }</p>}
-                    {isLoading && <h1>Loading...</h1>}
-                    {error && <h1>{error}</h1>}
-                </div>
+                <Form action={ createTopicDiscussion } config={{ popDown: true }}>
+                    <FormInput type="text" placeholder="topic url" name="topic_url" />  { /* pass topic id not url and select dropdown */}
+                    <FormInput type="text" placeholder="title" name="title" />
+                    <FormInput type="text" placeholder="description" name="description" />
+                    <div className="form-item">
+                        <button type="submit" className="btn-form-org-primary w-100" data-login>
+                            CREATE
+                        </button>
+                    </div>
+                </Form>
             )}
-        </div>
+        </>
     );
 };
 

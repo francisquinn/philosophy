@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { togglePopUpWindow } from "../../slices/popup.slice";
+import { resetForm } from "../../slices/form.slice";
 import React, { useEffect } from "react";
 /** Discussion */
 const DeleteDiscussion = React.lazy(() => import('../discussion/discussion-delete.component'));
@@ -38,7 +39,10 @@ const PopUpWindow = () => {
           {popup.component === "EDIT" && <EditDiscussion current={discussion} />}
           {popup.component === "CREATE" && <CreateDiscussion />}
           {popup.component === "DELETE" && <DeleteDiscussion current={discussion} />}
-          <button className="popup-close" onClick={() => dispatch(togglePopUpWindow({ component: null }))}>Close</button>
+          <button className="popup-close" onClick={() => {
+            dispatch(resetForm());
+            dispatch(togglePopUpWindow({ component: null }))}
+          }>Close</button>
         </div>
       </div>
     }

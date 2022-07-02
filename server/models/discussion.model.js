@@ -4,10 +4,6 @@ const ObjectId = Schema.ObjectId;
 
 const discussionSchema = new Schema(
   {
-    topic_id: {
-      type: ObjectId,
-      required: true,
-    },
     user_id: {
       type: ObjectId,
       required: true,

@@ -37,13 +37,9 @@ export const retrieveDiscussionByUrl = createAsyncThunk(
 
 export const createTopicDiscussion = createAsyncThunk(
   "discussions/create",
-  async ({ title, description, topic_url }, { rejectWithValue }) => {
+  async (form, { rejectWithValue }) => {
     try {
-      const res = await DiscussionDataService.createTopicDiscussion({
-        title: title,
-        description: description,
-        topic_url: topic_url
-      });
+      const res = await DiscussionDataService.createTopicDiscussion(form.inputs);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

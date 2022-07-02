@@ -11,12 +11,9 @@ const initialState = {
 
 export const userLogin = createAsyncThunk(
   "user/login",
-  async ({ email, password }, { rejectWithValue }) => {
+  async (form, { rejectWithValue }) => {
     try {
-      const res = await UserDataService.login({
-        email: email,
-        password: password,
-      });
+      const res = await UserDataService.login(form.inputs);
       return res.data;
     } catch(err) {
       return rejectWithValue(err.response.data);
@@ -26,13 +23,9 @@ export const userLogin = createAsyncThunk(
 
 export const userRegister = createAsyncThunk(
   "user/register",
-  async ({ username, email, password }, { rejectWithValue }) => {
+  async (form, { rejectWithValue }) => {
     try {
-      const res = await UserDataService.register({
-        username: username,
-        email: email,
-        password: password,
-      });
+      const res = await UserDataService.register(form.inputs);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

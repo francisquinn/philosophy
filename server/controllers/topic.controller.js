@@ -31,13 +31,13 @@ const getTopicDiscussions = (req, res) => {
     if (err) {
       return handleError(err);
     }
-    const topic_id = topic._id;
-    Discussion.find({ topic_id: topic_id }, (err, discussions) => {
+    const discussion_ids = topic.discussions;
+    Discussion.find({ '_id': { $in: discussion_ids }}, (err, discussions) => {
       if (err) {
         return handleError(err);
       }
       return res.status(200).send(discussions);
-    });
+    })
   });
 };
 
@@ -49,29 +49,30 @@ const createTopicDiscussion = (req, res) => {
     return;
   }
   const url = generateDiscussionUrl(title);
-  let topic_url = {url:'test'};
+  let topic_url = { url: req.body.topic_url };
   User.findById(res.locals.user, (err, user) => {
     if (err) {
       return handleError(err);
     }
-    Topic.findOne(topic_url, (err, topic) => {
+
+    Discussion.create({
+      user_id: mongoose.Types.ObjectId(res.locals.user),
+      title: req.body.title,
+      description: req.body.description,
+      author: user.username,
+      url: url,
+      topic_url: topic_url.url
+    }, (err, discussion) => {
       if (err) {
         return handleError(err);
       }
-      const topic_id = topic._id;
-      Discussion.create({
-          topic_id: topic_id,
-          user_id: mongoose.Types.ObjectId(res.locals.user),
-          title: req.body.title,
-          description: req.body.description,
-          author: user.username,
-          url: url,
-          topic_url: topic_url.url
-      }, (err, discussion) => {
+
+      Topic.updateOne(topic_url, { $push: { discussions: discussion._id}}, (err) => {
         if (err) {
-          return handleError(err);
+          // return handleError(err);
+          console.log(err)
         }
-        return res.status(200).send({ message: 'Discussion created', discussion: discussion })
+        return res.status(200).send({ message: 'Discussion created', discussion: discussion });
       });
     });
   });

@@ -23,6 +23,7 @@ const TopicDetails = (props) => {
         } else {
             // retrieve from api
             handle(retrieveTopicByUrl(props.topic_url), {});
+            dispatch(setCurrentTopic(props.topic_url));
         }
         // eslint-disable-next-line
     }, [dispatch, props.topic_url, state.topics]);
