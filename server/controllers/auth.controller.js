@@ -16,7 +16,7 @@ const authenticateToken = (req, res, next) => {
             next();
         });
     } else {
-        return res.status(403).send({ message: 'no token' });
+        return res.status(401).send({ message: 'no token' });
     }
 };
 

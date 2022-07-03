@@ -10,8 +10,6 @@ const Form = (props) => {
 
     const formSubmit = (event) => {
         event.preventDefault();
-        console.log("submit")
-        console.log(form.inputs)
         handle(action({ inputs: form.inputs}), config)
     };
 
@@ -27,6 +25,7 @@ const Form = (props) => {
         <form className="form-container" onSubmit={ formSubmit } onChange={ formChange }>
           { children }
         </form>
+        { isLoading && <h1>loading...</h1> }
         { error && <h1>{ error }</h1>}
         { response && <p>{ response.message }</p>}
       </>

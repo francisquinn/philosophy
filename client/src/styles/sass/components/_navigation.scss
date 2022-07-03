@@ -38,8 +38,8 @@
 }
 
 .nav-menu {
-    position: sticky;
-    top: $base-padding-top-body;
+    position: fixed;
+    top: $base-padding-top-body + 10;
     padding: $base-padding * 2;
     background-color: $white;
     border: 2px solid orange;

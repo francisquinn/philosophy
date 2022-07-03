@@ -1,43 +1,60 @@
 import { Link } from "react-router-dom";
 import { 
   retrieveTopicDiscussions, 
-  setCurrentTopic 
+  setCurrentTopic
 } from "../../slices/discussion.slice";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const DiscussionList = () => {
   const { topic_url } = useParams();
+  const { handle, isLoading, error } = useDispatchHandler();
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.discussions);
-  const discussions = state.list;
-  const topic = state.topic;
+  const state = useSelector((state) => state);
+  const discussions = state.discussions.list;
+  const retrieved = state.discussions.retrieved;
 
+  const [tds, setTds] = useState([]);
+  console.log(retrieved)
+  console.log(topic_url)
   useEffect(() => {
-    // store current topic discussion, refresh when topic changed
-    if (topic_url !== topic) {
+    if (!retrieved.includes(topic_url)) {
       dispatch(setCurrentTopic(topic_url));
-      dispatch(retrieveTopicDiscussions(topic_url));
+      handle(retrieveTopicDiscussions(topic_url), {});
+      return;
+    } 
+    
+    for (const d of discussions) {
+      if (Object.keys(d).includes(topic_url)) {
+        setTds(Object.values(d)[0])
+      } 
     }
-  }, [dispatch, discussions, topic_url, topic]);
+
+  // eslint-disable-next-line
+  }, [discussions, topic_url]);
 
   let discussionResults;
-  if (discussions.length < 1) {
+  if (!tds.length) {
     discussionResults = <p>empty</p>
   } else {
-    discussionResults =  discussions.map((discussion, index) => (
-                            <Link to={`/topics/${topic_url}/discussions/${discussion.url}`} key={index}>
-                              <h3>{discussion.title}</h3>
-                            </Link>
-                          ))
+    discussionResults = tds.map((discussion, index) => (
+          <Link to={`/topics/${topic_url}/discussions/${discussion.url}`} key={index}>
+          <h3>{discussion.title}</h3>
+        </Link>
+      ))  
   }
   
   return (
     <div>
       <h1>List discuss</h1>
-      { discussionResults }
+      { error && <h1>{ error }</h1>}
+      { isLoading ? (
+        <p>loading...</p>
+      ) : (
+        <div>{ discussionResults }</div>
+      )}
     </div>
   );
 };

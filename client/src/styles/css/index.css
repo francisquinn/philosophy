@@ -6,7 +6,7 @@
 }
 
 body {
-  padding-top: 75px;
+  padding-top: 60px;
 }
 
 ul {
@@ -25,6 +25,10 @@ hr {
 
 img {
   max-width: 100%;
+}
+
+.page-content {
+  margin-top: 15px;
 }
 
 @media (min-width: 0) {
@@ -606,10 +610,11 @@ img {
 
 .card {
   display: block;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #ddd;
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
   border-radius: 2.5px;
+  margin-bottom: 10px;
 }
 .card .card-title {
   font-size: 21px;
@@ -888,8 +893,8 @@ img {
 }
 
 .nav-menu {
-  position: sticky;
-  top: 75px;
+  position: fixed;
+  top: 70px;
   padding: 10px;
   background-color: #FFFFFF;
   border: 2px solid orange;

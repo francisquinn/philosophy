@@ -1,12 +1,11 @@
 import { retrieveDiscussionByUrl, setCurrentDiscussion } from "../../slices/discussion.slice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { togglePopUpWindow } from "../../slices/popup.slice";
 import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const DiscussionDetails = (props) => {
-  const topic_url = props.topic_url;
+  const { topic_url } = props;
   const discussion_url = props.discussion_url;
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -15,15 +14,17 @@ const DiscussionDetails = (props) => {
   const { handle, isLoading, error } = useDispatchHandler();
   
   useEffect(() => {
-    if (state.discussions.list.length < 1) {
+    if (!state.discussions.list.length) {
       handle(retrieveDiscussionByUrl({ topic_url, discussion_url }), {});
       return;
     }
     // retrieve from store & set topic
-    for (const d of state.discussions.list) {
-      if (d.url === discussion_url) {
-        dispatch(setCurrentDiscussion(d));
-        return;
+    for (const topicDiscussions of state.discussions.list) {
+      for (const d of Object.values(topicDiscussions)[0]) {
+        if (d.url === discussion_url) {
+          dispatch(setCurrentDiscussion(d));
+          return;
+        }
       }
     }
     // eslint-disable-next-line

@@ -45,7 +45,12 @@ const NavBar = () => {
               size={1.5}
             /> */}
             philosophy{width}
-            <button className="ml-2 btn-turq-primary" onClick={() => dispatch(togglePopUpWindow({ component: "LOGIN" }))}>Login</button>
+            {state.user.isLoggedIn ? (
+              <button onClick={() => dispatch(togglePopUpWindow({ component: "LOGOUT" })) }>Logout</button>
+            ) : (
+              <button className="ml-2 btn-turq-primary" onClick={() => dispatch(togglePopUpWindow({ component: "LOGIN" }))}>Login</button>
+              )
+            }
             {/* {state.menu.toggle && (
               <div className="nav-menu-mobile">
                 {state.menu.items.map((item) => (

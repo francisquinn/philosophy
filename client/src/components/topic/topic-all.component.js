@@ -10,8 +10,7 @@ const TopicsList = () => {
   const topics = state.topics;
 
   useEffect(() => {
-    if (topics.length === 0) {
-      console.log("call topics")
+    if (!topics.length) {
       handle(retrieveTopics(), {});
     }
     // eslint-disable-next-line
@@ -23,9 +22,9 @@ const TopicsList = () => {
       {error && <h1>{ error }</h1>}
       {topics &&
         topics.map((topic, index) => (
-          <Link to={`/topics/${topic.url}`} key={index}>
-            <div className="topic-container">
-              <h2>{topic.title}</h2>
+          <Link to={{ pathname: `/topics/${topic.url}`, query: "test" }} key={index}>
+            <div className="card">
+              <p className="card-title">{topic.title}</p>
               <em>{topic.description}</em>
             </div>
           </Link>

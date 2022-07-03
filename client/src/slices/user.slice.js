@@ -7,6 +7,7 @@ const initialState = {
   register: false,
   login: false,
   isLoggedIn: false,
+  loading: true
 };
 
 export const userLogin = createAsyncThunk(
@@ -72,6 +73,9 @@ export const userSlice = createSlice({
     },
     userLoggedState: (state, status) => {
       state.isLoggedIn = status.payload;
+    },
+    renderSite: (state) => {
+      state.loading = false;
     }
   },
   extraReducers: {
@@ -81,5 +85,5 @@ export const userSlice = createSlice({
   }
 });
 
-export const { toggleLoginWindow, toggleRegisterWindow, userLoggedState } = userSlice.actions;
+export const { toggleLoginWindow, toggleRegisterWindow, userLoggedState, renderSite } = userSlice.actions;
 export default userSlice.reducer;

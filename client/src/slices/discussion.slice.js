@@ -5,6 +5,7 @@ const initialState = {
   list: [],
   current: {},
   topic: null,
+  retrieved: [],
   isLoading: true
 };
 
@@ -49,14 +50,9 @@ export const createTopicDiscussion = createAsyncThunk(
 
 export const updateTopicDiscussion = createAsyncThunk(
   "discussions/update",
-  async ({ discussion_id, title, description, topic_id }, { rejectWithValue }) => {
+  async (form, { rejectWithValue }) => {
     try {
-      const res = await DiscussionDataService.updateTopicDiscussion({
-        discussion_id: discussion_id,
-        title: title,
-        description: description,
-        topic_id: topic_id
-      });
+      const res = await DiscussionDataService.updateTopicDiscussion(form.inputs);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -91,18 +87,20 @@ const discussionSlice = createSlice({
   },
   extraReducers: {
     // all-discussions
-    [retrieveTopicDiscussions.pending]: (state) => {
-      state.isLoading = true;
-      state.list = [];
-    },
     [retrieveTopicDiscussions.fulfilled]: (state, action) => {
-      state.isLoading = false;
       for (const discussion of action.payload) {
-        state.list.push(discussion);
+        let discuss = {}
+        discuss[discussion.topic_url] = action.payload;
+        state.list.push(discuss);
       }
+      // check if empty response
+      if (action.payload.length === 0) {
+        state.retrieved.push(action.meta['arg']);
+        return;
+      }
+      state.retrieved.push(action.payload[0].topic_url);
     },
     [retrieveTopicDiscussions.rejected]: (state, action) => {
-      state.isLoading = false;
       console.log(action.payload)
     },
     // create-discussion
@@ -115,7 +113,6 @@ const discussionSlice = createSlice({
     },
     // delete-discussion
     [deleteTopicDiscussion.fulfilled]: (state) => {
-      state.isLoading = false;
       if (state.list.length !== 0) {
         state.list = state.list.filter(discussion => discussion._id !== state.current._id);
       } 
@@ -123,7 +120,6 @@ const discussionSlice = createSlice({
     },
     //update-discussion
     [updateTopicDiscussion.fulfilled]: (state, action) => {
-      state.isLoading = false;
       if (state.list.length !== 0) {
         const index = state.list.findIndex(discussion => discussion._id === state.current._id);
         state.list[index] = action.payload.discussion;

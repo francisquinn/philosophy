@@ -1,8 +1,8 @@
 const FormInput = (props) => {
-  const { placeholder, name, type } = props;
+  const { placeholder, name, type, defaultValue } = props;
   return (
     <div className="form-item">
-      <input type={ type } className="form-input" placeholder={ placeholder } name={ name } />
+      <input type={ type } className="form-input" placeholder={ placeholder } name={ name } defaultValue={ defaultValue } />
     </div>
   );
 };

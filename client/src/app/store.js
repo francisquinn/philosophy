@@ -5,6 +5,7 @@ import menuReducer from "../slices/menu.slice";
 import userReducer from "../slices/user.slice";
 import popupReducer from "../slices/popup.slice";
 import formReducer from "../slices/form.slice";
+import appReducer from "../slices/app.slice";
 
 const reducer = {
   topics: topicReducer,
@@ -12,7 +13,8 @@ const reducer = {
   menu: menuReducer,
   user: userReducer,
   popup: popupReducer,
-  form: formReducer
+  form: formReducer,
+  app: appReducer
 };
 
 export const store = configureStore({

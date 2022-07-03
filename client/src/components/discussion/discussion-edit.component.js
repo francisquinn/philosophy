@@ -1,33 +1,20 @@
-import { useRef } from "react";
 import { updateTopicDiscussion } from "../../slices/discussion.slice";
-import useDispatchHandler from "../../hooks/useDispatchHandler";
+import Form from "../utils/form.component";
+import FormInput from "../utils/form-input.component";
 
 const EditDiscussion = (discussion) => {
-    const title = useRef(discussion.current.title);
-    const description = useRef(discussion.current.description);
-    const { handle, isLoading, error, response } = useDispatchHandler();
-
-    const updateDiscussion = () => {
-        // TODO check if values change
-        handle(updateTopicDiscussion({
-            discussion_id: discussion.current._id,
-            title: title.current.value,
-            description: description.current.value,
-        }), { popDown: true })
-    };
 
     return (
-        <div>
-            <h1>Edit discussion</h1>
-            <input type="text" placeholder="title" defaultValue={discussion.current.title} ref={title} />
-            <br />
-            <input type="text" placeholder="description" defaultValue={discussion.current.description} ref={description} />
-            <br />
-            <input type="submit" value="Submit" onClick={ () => updateDiscussion() } />
-            {response && <p>{ response.message }</p>}
-            {isLoading && <h1>Loading...</h1>}
-            {error && <h1>{error}</h1>}
-        </div>
+        <Form action={ updateTopicDiscussion } config={{ popDown: true }}>
+            <FormInput type="hidden" name="disscusion_id" value={ discussion.current._id } />
+            <FormInput type="text" placeholder="title" name="title" defaultValue={ discussion.current.title } />
+            <FormInput type="text" placeholder="description" name="description" defaultValue={ discussion.current.description } />
+            <div className="form-item">
+                <button type="submit" className="btn-form-org-primary w-100" data-login>
+                    EDIT
+                </button>
+            </div>
+        </Form>
     );
 };
 

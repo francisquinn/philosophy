@@ -49,6 +49,9 @@ const topicSlice = createSlice({
   reducers: {
     setCurrentTopic: (state, action) => {
       state.topic = action.payload;
+    },
+    addTopic: (state, action) => {
+      state.topics.push(action.payload);
     }
   },
   extraReducers: {
@@ -63,9 +66,6 @@ const topicSlice = createSlice({
       state.isLoading = false;
       console.log(action)
     },
-    [retrieveTopics.pending]: (state, action) => {
-      state.isLoading = true;
-    },
     // url-topic
     [retrieveTopicByUrl.fulfilled]: (state, action) => {
       state.topic = action.payload;
@@ -78,7 +78,7 @@ const topicSlice = createSlice({
 });
 
 // export reducers
-export const { setCurrentTopic } = topicSlice.actions;
+export const { setCurrentTopic, addTopic } = topicSlice.actions;
 
 const { reducer } = topicSlice;
 export default reducer;
