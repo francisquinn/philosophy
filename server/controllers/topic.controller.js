@@ -100,7 +100,13 @@ const updateTopicDiscussion = (req, res) => {
 const deleteTopicDiscussion = (req, res) => {
   Discussion.findByIdAndDelete(req.body.discussion_id, (err) => {
     if (err) return handleError(err);
-    return res.status(200).send({ message: 'Discussion deleted' });
+
+    Topic.findOneAndUpdate({ url: req.body.topic_url }, { $pullAll: { 
+      discussions: [mongoose.Types.ObjectId(req.body.discussion_id)] 
+    } }, {new: true}, (err) => {
+      if (err) console.log(err)
+      return res.status(200).send({ message: 'Discussion deleted' });
+    })
   });
 };
 

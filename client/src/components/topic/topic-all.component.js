@@ -25,7 +25,7 @@ const TopicsList = () => {
           <Link to={{ pathname: `/topics/${topic.url}`, query: "test" }} key={index}>
             <div className="card">
               <p className="card-title">{topic.title}</p>
-              <em>{topic.description}</em>
+              <em>{topic.discussions.length}</em>
             </div>
           </Link>
         ))}

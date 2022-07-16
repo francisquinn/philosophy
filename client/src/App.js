@@ -20,11 +20,11 @@ const DiscussionDetails = React.lazy(() => import('./pages/discussion/discussion
 const PopUpWindow = React.lazy(() => import('./components/utils/popup.component'));
 
 function App() {
-  const loading = useSelector((state) => state.app.loading); // TODO extract site loading logic from user
+  const initLoad = useSelector((state) => state.app.loading); // TODO extract site loading logic from user
   useUserLoggedStatus();
   return (
     <>
-      { loading ? (
+      { initLoad ? (
         <h1>loading</h1>
       ) : (
         <Router>

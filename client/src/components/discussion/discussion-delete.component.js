@@ -1,12 +1,14 @@
 import { deleteTopicDiscussion } from "../../slices/discussion.slice";
 import useDispatchHandler from "../../hooks/useDispatchHandler";
+import { useSelector } from "react-redux";
 
 const DeleteDiscussion = (discussion) => {
     const { handle, isLoading, error, response } = useDispatchHandler();
 
     const deleteDiscussion = () => {
         handle(deleteTopicDiscussion({
-            discussion_id: discussion.current._id
+            discussion_id: discussion.current._id,
+            topic_url: discussion.current.topic_url
         }), { popDown: true, nav: true });
     };
 

@@ -62,10 +62,11 @@ export const updateTopicDiscussion = createAsyncThunk(
 
 export const deleteTopicDiscussion = createAsyncThunk(
   "discussions/delete",
-  async ({ discussion_id }, { rejectWithValue }) => {
+  async ({ discussion_id, topic_url }, { rejectWithValue }) => {
     try {
       const res = await DiscussionDataService.deleteTopicDiscussion({
-        discussion_id: discussion_id
+        discussion_id: discussion_id,
+        topic_url: topic_url
       });
       return res.data;
     } catch (err) {
