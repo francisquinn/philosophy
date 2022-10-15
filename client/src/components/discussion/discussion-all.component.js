@@ -12,38 +12,32 @@ const DiscussionList = () => {
   const { topic_url } = useParams();
   const { handle, isLoading, error } = useDispatchHandler();
   const dispatch = useDispatch();
-  const state = useSelector((state) => state);
-  const discussions = state.discussions.list;
-  const retrieved = state.discussions.retrieved;
-
-  const [tds, setTds] = useState([]);
-  console.log(retrieved)
-  console.log(topic_url)
+  const discussionState = useSelector((state) => state.discussions);
+  const [ topicDiscussions, setTopicDiscussions ] = useState([]);
+ 
   useEffect(() => {
-    if (!retrieved.includes(topic_url)) {
-      dispatch(setCurrentTopic(topic_url));
+    if (!discussionState.retrieved.includes(topic_url)) {
+      dispatch(setCurrentTopic(topic_url))
       handle(retrieveTopicDiscussions(topic_url), {});
       return;
     } 
     
-    for (const d of discussions) {
-      if (Object.keys(d).includes(topic_url)) {
-        setTds(Object.values(d)[0])
-      } 
+    console.log(discussionState.list)
+    // TODO yuse url or id?
+    for (const [url, list] of Object.entries(discussionState.list)) {
+      if (url ===  topic_url) {
+        setTopicDiscussions(list);
+      }
     }
-
   // eslint-disable-next-line
-  }, [discussions, topic_url]);
+  }, [ discussionState, topic_url ]);
 
-  let discussionResults;
-  if (!tds.length) {
-    discussionResults = <p>empty</p>
+
+  let result;
+  if (!topicDiscussions.length) {
+    result = <p>no discussions :(</p>
   } else {
-    discussionResults = tds.map((discussion, index) => (
-          <Link to={`/topics/${topic_url}/discussions/${discussion.url}`} key={index}>
-          <h3>{discussion.title}</h3>
-        </Link>
-      ))  
+    result = <DiscussionCard discussions={ topicDiscussions } topic_url={ topic_url } /> 
   }
   
   return (
@@ -53,9 +47,19 @@ const DiscussionList = () => {
       { isLoading ? (
         <p>loading...</p>
       ) : (
-        <div>{ discussionResults }</div>
+        <div>{ result }</div>
       )}
     </div>
+  );
+};
+
+const DiscussionCard = ({ discussions, topic_url }) => {
+  return (
+    discussions.map((discussion, index) => (
+      <Link to={`/topics/${topic_url}/discussions/${discussion.url}`} key={index}>
+        <h3>{discussion.title}</h3>
+      </Link>
+    ))
   );
 };
 

@@ -25,7 +25,7 @@ const login = async (req, res) => {
         }
         // sign JWT token
         const token = jwt.sign(
-          { id: user._id }, 
+          { id: user._id, username: user.username },
           privateKey,
           { algorithm: 'RS256' }
         );
@@ -97,7 +97,7 @@ const validatePassword = async (password, hash) => {
 };
 
 const getUserInfo = (req, res) => {
-  User.findById(res.locals.user, (err, user) => {
+  User.findById(res.locals.user.id, (err, user) => {
     if (err) return handleError(err);
     return res.status(200).send({ username: user.username });
   });

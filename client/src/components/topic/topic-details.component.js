@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { retrieveTopicByUrl, retrieveTopics, setCurrentTopic } from "../../slices/topic.slice";
+import { retrieveTopicByUrl, setCurrentTopic } from "../../slices/topic.slice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useDispatchHandler from "../../hooks/useDispatchHandler";
@@ -25,10 +25,9 @@ const TopicDetails = (props) => {
         } 
         // retrieve from api
         handle(retrieveTopicByUrl(topic_url), {});
-        handle(retrieveTopics(), {});
         dispatch(setCurrentTopic(topic_url));
         // eslint-disable-next-line
-    }, [topic_url, state.topics]);
+    }, [topic_url, state.topics.length]);
 
   
   return (

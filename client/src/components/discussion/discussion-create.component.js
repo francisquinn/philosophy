@@ -6,6 +6,7 @@ import FormInput from "../utils/form-input.component";
 const CreateDiscussion = () => {
     const state = useSelector((state) => state);
     const user = state.user;
+    const topic = state.topics.topic;
     
     return (
         <>
@@ -13,7 +14,7 @@ const CreateDiscussion = () => {
                 <p>no access sir</p>
             ) : (
                 <Form action={ createTopicDiscussion } config={{ popDown: true }}>
-                    <FormInput type="text" placeholder="topic url" name="topic_url" />  { /* pass topic id not url and select dropdown */}
+                    <FormInput type="text" placeholder="topic id" name="topic_id" defaultValue={ topic._id } />  { /* pass topic id not url and select dropdown */}
                     <FormInput type="text" placeholder="title" name="title" />
                     <FormInput type="text" placeholder="description" name="description" />
                     <div className="form-item">

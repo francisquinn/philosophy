@@ -10,13 +10,13 @@ const authenticateToken = (req, res, next) => {
                 if (err.name === 'TokenExpiredError') {
                     console.log('token expired');
                 }
-                return res.status(403).send({ message: 'invalid token' });
+                return res.status(200).send({ error: 'invalid token' });
             }
-            res.locals.user = user.id;
+            res.locals.user = user;
             next();
         });
     } else {
-        return res.status(401).send({ message: 'no token' });
+        return res.status(200).send({ error: 'no token' });
     }
 };
 

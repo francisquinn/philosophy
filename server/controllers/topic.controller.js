@@ -16,7 +16,7 @@ const getTopicByUrl = (req, res) => {
   let url = req.params;
   Topic.findOne(url, (err, topic) => {
     if (topic == null) {
-      return res.status(400).send({ message: 'topic does not exist' });
+      return res.status(200).send({ error: 'topic does not exist' });
     }
     if (err) {
       return handleError(err);
@@ -26,18 +26,21 @@ const getTopicByUrl = (req, res) => {
 };
 
 const getTopicDiscussions = (req, res) => {
-  let url = req.params;
-  Topic.findOne(url, (err, topic) => {
-    if (err) {
+  let topic_url = req.params.url;
+  Topic.aggregate([{ $match: { url: topic_url }}, { $lookup: {
+    from: "discussions",
+    localField: "_id",
+    foreignField: "topic_id",
+    as: "discussions"
+  }}], (err, topic) => {
+   if (err) {
       return handleError(err);
     }
-    const discussion_ids = topic.discussions;
-    Discussion.find({ '_id': { $in: discussion_ids }}, (err, discussions) => {
-      if (err) {
-        return handleError(err);
-      }
-      return res.status(200).send(discussions);
-    })
+    return res.status(200).send({ 
+      topic_id: topic[0]._id, 
+      topic_url: topic[0].url,
+      discussions: topic[0].discussions 
+    });
   });
 };
 
@@ -45,36 +48,27 @@ const createTopicDiscussion = (req, res) => {
   const title = req.body.title;
   // TODO validate text fields
   if (title.length < 1) {
-    res.status(400).send({ status: 400, message: 'Discussion not' });
+    res.status(200).send({ error: 'Discussion not' });
     return;
   }
   const url = generateDiscussionUrl(title);
-  let topic_url = { url: req.body.topic_url };
-  User.findById(res.locals.user, (err, user) => {
-    if (err) {
-      return handleError(err);
-    }
+  
+  const topic_id = req.body.topic_id;
+  const user = res.locals.user;
 
     Discussion.create({
-      user_id: mongoose.Types.ObjectId(res.locals.user),
+      user_id: mongoose.Types.ObjectId(user.id),
+      topic_id: mongoose.Types.ObjectId(topic_id),
       title: req.body.title,
       description: req.body.description,
       author: user.username,
-      url: url,
-      topic_url: topic_url.url
+      url: url
     }, (err, discussion) => {
       if (err) {
         return handleError(err);
       }
 
-      Topic.updateOne(topic_url, { $push: { discussions: discussion._id}}, (err) => {
-        if (err) {
-          // return handleError(err);
-          console.log(err)
-        }
-        return res.status(200).send({ message: 'Discussion created', discussion: discussion });
-      });
-    });
+      return res.status(200).send({ message: 'Discussion created', discussion: discussion });
   });
 };
 
@@ -100,13 +94,7 @@ const updateTopicDiscussion = (req, res) => {
 const deleteTopicDiscussion = (req, res) => {
   Discussion.findByIdAndDelete(req.body.discussion_id, (err) => {
     if (err) return handleError(err);
-
-    Topic.findOneAndUpdate({ url: req.body.topic_url }, { $pullAll: { 
-      discussions: [mongoose.Types.ObjectId(req.body.discussion_id)] 
-    } }, {new: true}, (err) => {
-      if (err) console.log(err)
-      return res.status(200).send({ message: 'Discussion deleted' });
-    })
+    return res.status(200).send({ message: 'Discussion deleted' });
   });
 };
 
@@ -120,6 +108,10 @@ const getDiscussionByUrl = (req, res) => {
 
 const generateDiscussionUrl = (title) => {
   return title.trim().replace(/\s+/g, '-').toLowerCase();
+};
+
+const handleError = (error) => {
+  console.log(error);
 };
 
 module.exports = {

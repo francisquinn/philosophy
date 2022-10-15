@@ -1,6 +1,6 @@
 import { deleteTopicDiscussion } from "../../slices/discussion.slice";
 import useDispatchHandler from "../../hooks/useDispatchHandler";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const DeleteDiscussion = (discussion) => {
     const { handle, isLoading, error, response } = useDispatchHandler();

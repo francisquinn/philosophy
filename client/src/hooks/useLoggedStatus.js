@@ -8,12 +8,10 @@ export default function useUserLoggedStatus() {
     useEffect(() => {
         dispatch(checkUserLoggedStatus())
             .unwrap()
-            .then(() => {
-                // setTimeout(() => {
-                    dispatch(userLoggedState(true))
-                    dispatch(renderApp(true))
-                // }, 3000)
-                
+            .then((response) => {
+                dispatch(renderApp(true));
+                if (response.error) return;
+                dispatch(userLoggedState(true));
             })
             .catch((err) => {
                 dispatch(renderApp(true))

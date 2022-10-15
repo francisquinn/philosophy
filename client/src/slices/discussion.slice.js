@@ -2,11 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import DiscussionDataService from "../service/discussion.service";
 
 const initialState = {
-  list: [],
+  list: {},
   current: {},
   topic: null,
-  retrieved: [],
-  isLoading: true
+  retrieved: []
 };
 
 export const retrieveTopicDiscussions = createAsyncThunk(
@@ -89,24 +88,33 @@ const discussionSlice = createSlice({
   extraReducers: {
     // all-discussions
     [retrieveTopicDiscussions.fulfilled]: (state, action) => {
-      for (const discussion of action.payload) {
-        let discuss = {}
-        discuss[discussion.topic_url] = action.payload;
-        state.list.push(discuss);
-      }
+      const response = action.payload;
       // check if empty response
-      if (action.payload.length === 0) {
+      if (response.discussions.length === 0) {
         state.retrieved.push(action.meta['arg']);
         return;
       }
-      state.retrieved.push(action.payload[0].topic_url);
+      // retrieved topic discussions
+      state.retrieved.push(response.topic_url);
+      // add topic discussions to list
+      state.list[response.topic_url] = response.discussions;
+      
     },
     [retrieveTopicDiscussions.rejected]: (state, action) => {
       console.log(action.payload)
     },
     // create-discussion
     [createTopicDiscussion.fulfilled]: (state, action) => {
-      state.list.push(action.payload.discussion);
+      const discussion = action.payload.discussion;
+      for (const topic of state.list) {
+        if (topic.hasOwnProperty(discussion.topic_id)) {
+          topic[discussion.topic_id].push(discussion)
+        } else {
+          let discuss = {}
+          discuss[discussion.topic_id] = discussion;
+          state.list.push(discuss);
+        }
+      }
     },
     // url-discussion
     [retrieveDiscussionByUrl.fulfilled]: (state, action) => {

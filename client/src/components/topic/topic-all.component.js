@@ -14,7 +14,7 @@ const TopicsList = () => {
       handle(retrieveTopics(), {});
     }
     // eslint-disable-next-line
-  }, [topics]);
+  }, [topics.length]);
 
   return (
     <div>
@@ -25,7 +25,6 @@ const TopicsList = () => {
           <Link to={{ pathname: `/topics/${topic.url}`, query: "test" }} key={index}>
             <div className="card">
               <p className="card-title">{topic.title}</p>
-              <em>{topic.discussions.length}</em>
             </div>
           </Link>
         ))}

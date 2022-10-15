@@ -14,10 +14,7 @@ const topicSchema = new Schema(
     url: {
       type: String,
       required: true,
-    },
-    discussions: {
-      type: Array,
-    },
+    }
   },
   { timestamps: true }
 );

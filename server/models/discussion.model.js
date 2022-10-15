@@ -8,6 +8,10 @@ const discussionSchema = new Schema(
       type: ObjectId,
       required: true,
     },
+    topic_id: {
+      type: ObjectId,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -23,11 +27,7 @@ const discussionSchema = new Schema(
     url: {
       type: String,
       required: true,
-    },
-    topic_url: {
-      type: String,
-      required: true,
-    },
+    }
   },
   { timestamps: true }
 );

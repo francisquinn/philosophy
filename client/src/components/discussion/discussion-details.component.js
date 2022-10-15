@@ -14,6 +14,7 @@ const DiscussionDetails = (props) => {
   const { handle, isLoading, error } = useDispatchHandler();
   
   useEffect(() => {
+    console.log("useEffect ran")
     if (!state.discussions.list.length) {
       handle(retrieveDiscussionByUrl({ topic_url, discussion_url }), {});
       return;
