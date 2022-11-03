@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 /** Hooks */
 import useUserLoggedStatus from "./hooks/useLoggedStatus";
 
+
 /** Pages */
 const Discover = React.lazy(() => import("./pages/discover.page"));
 const About = React.lazy(() => import('./pages/about.page'));
@@ -14,7 +15,8 @@ const Philosophers = React.lazy(() => import('./pages/philosophers.page'));
 const Topics = React.lazy(() => import('./pages/topic/topics.page'));
 const TopicDetailsPage = React.lazy(() => import('./pages/topic/topic.details'));
 const Discussions = React.lazy(() => import('./pages/discussion/discussion.page'));
-const DiscussionDetails = React.lazy(() => import('./pages/discussion/discussion.details'));
+const DiscussionDetailsPage = React.lazy(() => import('./pages/discussion/discussion.details'));
+
 
 /** Components */
 const PopUpWindow = React.lazy(() => import('./components/utils/popup.component'));
@@ -48,14 +50,10 @@ function App() {
                       <Route path="/about" element={<About />} />
                       <Route path="/topics" element={<Topics />} />
                       <Route path="/topics/:topic_url" element={<TopicDetailsPage />} />
-                      <Route
-                        path="/topics/:topic_url/discussions"
-                        element={<Discussions />}
-                      />
-                      <Route
-                        path="/topics/:topic_url/discussions/:discussion_url"
-                        element={<DiscussionDetails />}
-                      />
+
+
+                      <Route path="/topics/:topic_url/discussions" element={<Discussions />} />
+                      <Route path="/topics/:topic_url/:discussion_url" element={<DiscussionDetailsPage />} />
                       <Route path="/" element={<Discover />} />
                     </Routes>
                   </Suspense>

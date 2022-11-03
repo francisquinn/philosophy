@@ -1,16 +1,73 @@
-import { useParams } from "react-router-dom";
-import TopicDetails from "../../components/topic/topic-details.component";
-import { useSelector } from "react-redux";
+import { retrieveTopicByUrl, setCurrentTopic } from "../../slices/topic.slice";
 import PageTitle from "../../components/utils/page-title.component";
+import DiscussionCard from "../../components/discussion/discussion-card.component";
+import { 
+  retrieveTopicDiscussions
+} from "../../slices/discussion.slice";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const TopicDetailsPage = () => {
+console.log('use eff ran')
   const { topic_url } = useParams();
-  const state = useSelector((state) => state.topics);
+  const { handle, isLoading, error } = useDispatchHandler();
+  const dispatch = useDispatch();
+  const discussionState = useSelector((state) => state.discussions);
+  const topicState = useSelector((state) => state.topics);
+  const [ topicDiscussions, setTopicDiscussions ] = useState([]);
+
+  useEffect(() => {
+    // TODO: Abort Controller cleanup function
+    const controller = new AbortController();
+
+    if (!discussionState.retrieved.includes(topic_url)) {
+      dispatch(setCurrentTopic(topic_url))
+      handle(retrieveTopicDiscussions(topic_url), {});
+      return;
+    } 
+    
+    // TODO use url or id?
+    for (const [url, list] of Object.entries(discussionState.list)) {
+      if (url ===  topic_url) {
+        setTopicDiscussions(list);
+      }
+    }
+
+    if (topicState.list.length) {
+      // retrieve from store & set topic
+      for (const topic of topicState.list) {
+          if (topic.url === topic_url) {
+              dispatch(setCurrentTopic(topic));
+              return;
+          }
+      }
+      return;
+    } 
+    // retrieve from api
+    handle(retrieveTopicByUrl(topic_url), {});
+    dispatch(setCurrentTopic(topic_url));
+
+    return () => {
+      controller.abort();
+    };
+  // eslint-disable-next-line
+  }, [ discussionState, topic_url ]);
+
+  let result;
+  if (!topicDiscussions.length) {
+    result = <p>no discussions :(</p>
+  } else {
+    result = <DiscussionCard discussions={ topicDiscussions } topic_url={ topic_url } />
+  }
+
   return (
     <>
-      <PageTitle title={ state.topic.title } />
+      <PageTitle title={ topicState.current.title } />
       <div className="page-content">
-        <TopicDetails topic_url={topic_url} />
+      { error && <h1>{ error }</h1> }
+      { isLoading ? <p>loading...</p> : <div>{ result }</div> } 
       </div>
     </>
   );
