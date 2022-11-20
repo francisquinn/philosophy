@@ -1,8 +1,8 @@
 import http from "./http-common";
 
 class DiscussionDataService {
-  getTopicDiscussions(topic_url) {
-    return http.get(`/topics/${topic_url}/discussions`);
+  getTopicDiscussions(topic_url, signal) {
+    return http.get(`/topics/${topic_url}/discussions`, { signal: signal });
   }
 
   getDiscussionByUrl(topic_url, discussion_url) {

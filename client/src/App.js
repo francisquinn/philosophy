@@ -40,7 +40,7 @@ function App() {
               </div>
             </div>
             <div className="row gap-1">
-              <div className="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+              <div className="col-xl-10 col-lg-9 col-md-9 col-sm-12 col-xs-12">
                 <div className="route-view">
                   {/* router */}
                   <Suspense fallback={'<div>Loading...</div>'}>

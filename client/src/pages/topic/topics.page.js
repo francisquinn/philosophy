@@ -12,10 +12,13 @@ const Topics = () => {
   const topics = topicState.list;
 
   useEffect(() => {
-    console.log('ue eff ran')
     if (!topics.length) {
       handle(retrieveTopics(), {});
     }
+
+    return () => {
+      console.log('cleanup')
+    };
     // eslint-disable-next-line
   }, [topics.length]);
   return (
@@ -23,7 +26,19 @@ const Topics = () => {
       {error && <h1>{ error }</h1>}
       <PageTitle title="Topics" />
       <div className="page-content">
-      {isLoading ? <h1>Loading...</h1> : <TopicCard topics={ topics } /> }
+      {isLoading ? (
+        <h1>Loading...</h1>
+        ) : (
+          <>
+            <div className="row" data-topic-cards>
+              {topics.map((topic, index) => (
+                <div className="col-xs-12 col-sm-6 col-md-4 col-xl-3" key={ index }>
+                   <TopicCard topic={ topic } />
+                </div>
+              )) }
+            </div>
+          </>
+        )}
       </div>
     </>
   );

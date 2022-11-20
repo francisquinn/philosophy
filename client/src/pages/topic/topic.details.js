@@ -10,7 +10,6 @@ import { useParams } from "react-router-dom";
 import useDispatchHandler from "../../hooks/useDispatchHandler";
 
 const TopicDetailsPage = () => {
-console.log('use eff ran')
   const { topic_url } = useParams();
   const { handle, isLoading, error } = useDispatchHandler();
   const dispatch = useDispatch();
@@ -20,12 +19,11 @@ console.log('use eff ran')
 
   useEffect(() => {
     // TODO: Abort Controller cleanup function
-    const controller = new AbortController();
+   const controller = new AbortController();
 
     if (!discussionState.retrieved.includes(topic_url)) {
-      dispatch(setCurrentTopic(topic_url))
-      handle(retrieveTopicDiscussions(topic_url), {});
-      return;
+      handle(retrieveTopicDiscussions({  topic_url: topic_url, signal: controller.signal }), {});
+      return () => controller.abort();
     } 
     
     // TODO use url or id?
@@ -35,7 +33,7 @@ console.log('use eff ran')
       }
     }
 
-    if (topicState.list.length) {
+    if (topicState.list.length > 0) {
       // retrieve from store & set topic
       for (const topic of topicState.list) {
           if (topic.url === topic_url) {
@@ -46,12 +44,11 @@ console.log('use eff ran')
       return;
     } 
     // retrieve from api
-    handle(retrieveTopicByUrl(topic_url), {});
-    dispatch(setCurrentTopic(topic_url));
-
-    return () => {
-      controller.abort();
-    };
+    if (Object.keys(topicState.current).length === 0) {
+      handle(retrieveTopicByUrl(topic_url), {});
+      return () => controller.abort();
+    }
+    
   // eslint-disable-next-line
   }, [ discussionState, topic_url ]);
 

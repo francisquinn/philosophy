@@ -16,7 +16,7 @@ const NavBar = () => {
 
   return (
     <>
-      {width > 700 ? (
+      {width > 720 ? (
         <div className="navbar">
           <div>
             philosophy{width}

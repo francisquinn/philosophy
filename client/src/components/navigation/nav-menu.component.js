@@ -8,7 +8,7 @@ const NavMenu = () => {
   
   return (
     <>
-      {width > 700 && (
+      {width > 720 && (
         <div className="nav-menu">
           {state.items.map((item) => (
             <div className="p-2" key={item.id}>

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import DiscussionDataService from "../service/discussion.service";
+import axios from "axios";
 
 const initialState = {
   list: {},
@@ -10,11 +11,14 @@ const initialState = {
 
 export const retrieveTopicDiscussions = createAsyncThunk(
   "discussions/retieveTopicDiscussions",
-  async (topic_url, {rejectWithValue }) => {
+  async ({ topic_url, signal }, {rejectWithValue }) => {
     try {
-      const res = await DiscussionDataService.getTopicDiscussions(topic_url);
+      const res = await DiscussionDataService.getTopicDiscussions(topic_url, signal);
       return res.data;
     } catch(err) {
+      if(axios.isCancel(err)) {
+        return rejectWithValue(err.message);
+      }
       return rejectWithValue(err.response.data);
     }
   }
@@ -91,7 +95,7 @@ const discussionSlice = createSlice({
       const response = action.payload;
       // check if empty response
       if (response.discussions.length === 0) {
-        state.retrieved.push(action.meta['arg']);
+        state.retrieved.push(action.meta['arg'].topic_url);
         return;
       }
       // retrieved topic discussions

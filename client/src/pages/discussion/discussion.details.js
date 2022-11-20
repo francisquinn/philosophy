@@ -32,7 +32,6 @@ const DiscussionDetailsPage = () => {
 
   return (
     <div>
-      <h1>discussion detail</h1>
       { isLoading ? <h1>Loading...</h1> : <DiscussionHeader discussion={ discussionState.current } /> }
       {error && <h1>{error}</h1>}
 

@@ -3,9 +3,9 @@
 $grid-columns : 12;
 $grid-gaps: (
     "0": 0,
-    "1": 10px,
-    "2": 20px,
-    "3": 30px
+    "1": 5px,
+    "2": 10px,
+    "3": 15px
 );
 $grid-col-base: (
     "33": 33.33%,
@@ -15,7 +15,6 @@ $grid-col-base: (
 );
 $layout-values: flex-start, flex-end, center, space-between, space-around;
 
-// base layout classes
 .container {
     width: 100%;
     max-width: 1440px;
@@ -41,7 +40,8 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
 // grid gaps
 @each $key, $val in $grid-gaps {
     .gap-#{$key} > * {
-        padding: $val;
+        padding-left: $val;
+        padding-right: $val;
     }
     .gap-#{$key} {
         margin-left: -$val;
