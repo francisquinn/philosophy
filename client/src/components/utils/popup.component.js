@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { togglePopUpWindow } from "../../slices/popup.slice";
 import { resetForm } from "../../slices/form.slice";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 /** Discussion */
 const DeleteDiscussion = React.lazy(() => import('../discussion/discussion-delete.component'));
 const EditDiscussion = React.lazy(() => import('../discussion/discussion-edit.component'));
@@ -33,7 +33,7 @@ const PopUpWindow = () => {
     {popup.window &&
       <div className="popup-container">
         <div className="popup-wrapper">
-          {popup.component === "LOGIN" && <Login />}
+          {popup.component === "LOGIN" && <Suspense fallback='loading login'><Login /></Suspense>}
           {popup.component === "REGISTER" && <Register />}
           {popup.component === "LOGOUT" && <Logout />}
           {popup.component === "EDIT" && <EditDiscussion current={discussion} />}

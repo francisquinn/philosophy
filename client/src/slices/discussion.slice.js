@@ -26,14 +26,18 @@ export const retrieveTopicDiscussions = createAsyncThunk(
 
 export const retrieveDiscussionByUrl = createAsyncThunk(
   "discussions/retieveByUrl",
-  async ({ topic_url, discussion_url }, { rejectWithValue }) => {
+  async ({ topic_url, discussion_url, signal }, { rejectWithValue }) => {
     try {
       const res = await DiscussionDataService.getDiscussionByUrl(
         topic_url,
-        discussion_url
+        discussion_url,
+        signal
       );
       return res.data;
     } catch (err) {
+      if(axios.isCancel(err)) {
+        return rejectWithValue(err.message);
+      }
       return rejectWithValue(err.response.data);
     }
   }

@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import useDispatchHandler from "../../hooks/useDispatchHandler";
+//import SkeletonElement from "../../components/skeletons/SkeletonElement.component";
+import SkeletonDiscussion from "../../components/skeletons/SkeletonDiscussion.component";
 
 const TopicDetailsPage = () => {
   const { topic_url } = useParams();
@@ -61,11 +63,20 @@ const TopicDetailsPage = () => {
 
   return (
     <>
-      <PageTitle title={ topicState.current.title } />
-      <div className="page-content">
       { error && <h1>{ error }</h1> }
-      { isLoading ? <p>loading...</p> : <div>{ result }</div> } 
-      </div>
+      { isLoading ? (
+        <>
+          {[1,2,3,4,5].map((n) => <SkeletonDiscussion key={n} />)}
+        </>
+      ) : (
+        <>
+          <div className="page-content">
+            <PageTitle title={ topicState.current.title } />
+            <div>{ result }</div>
+            {[1,2,3,4,5].map((n) => <SkeletonDiscussion key={n} />)}
+          </div>
+        </>
+      )} 
     </>
   );
   

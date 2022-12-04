@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from './components/navigation/navbar.component';
 import NavMenu from './components/navigation/nav-menu.component';
+import PopUpWindow from './components/utils/popup.component';
 import { useSelector } from "react-redux";
 /** Hooks */
 import useUserLoggedStatus from "./hooks/useLoggedStatus";
@@ -19,39 +20,38 @@ const DiscussionDetailsPage = React.lazy(() => import('./pages/discussion/discus
 
 
 /** Components */
-const PopUpWindow = React.lazy(() => import('./components/utils/popup.component'));
+// const PopUpWindow = React.lazy(() => import('./components/utils/popup.component'));
 
 function App() {
-  const initLoad = useSelector((state) => state.app.loading); // TODO extract site loading logic from user
+  const initLoad = useSelector((state) => state.app.loading);
   useUserLoggedStatus();
   return (
     <>
       { initLoad ? (
-        <h1>loading</h1>
+        <h1>loading site</h1>
       ) : (
         <Router>
-          <Suspense fallback={'<div>Loading...</div>'}>
+          {/* TODO load popup? */}
+          {/* <Suspense fallback={'<div>Loading popu ...</div>'}>  */}
             <PopUpWindow />
-          </Suspense>
+          {/* </Suspense> */}
           <div className="App container" id="app-body">
             <div className="row">
               <div className="col-100">
                 <NavBar />
               </div>
             </div>
-            <div className="row gap-1">
+            <div className="row gap-2">
               <div className="col-xl-10 col-lg-9 col-md-9 col-sm-12 col-xs-12">
                 <div className="route-view">
                   {/* router */}
-                  <Suspense fallback={'<div>Loading...</div>'}>
+                  <Suspense fallback={'<div>Loading route...</div>'}>
                     <Routes>
                       <Route path="/books" element={<Books />} />
                       <Route path="/philosophers" element={<Philosophers />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/topics" element={<Topics />} />
                       <Route path="/topics/:topic_url" element={<TopicDetailsPage />} />
-
-
                       <Route path="/topics/:topic_url/discussions" element={<Discussions />} />
                       <Route path="/topics/:topic_url/:discussion_url" element={<DiscussionDetailsPage />} />
                       <Route path="/" element={<Discover />} />

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import TopicDataService from "../service/topic.service";
+import axios from "axios";
 
 const initialState = {
   list: [],
@@ -10,11 +11,14 @@ const initialState = {
 
 export const retrieveTopics = createAsyncThunk(
   "topics/retrieve", 
-  async (_, { rejectWithValue }) => {
+  async (signal, { rejectWithValue }) => {
   try {
-    const res = await TopicDataService.getALLTopics();
+    const res = await TopicDataService.getAllTopics(signal);
     return res.data;
   } catch (err) {
+    if(axios.isCancel(err)) {
+      return rejectWithValue(err.message);
+    }
     return rejectWithValue(err.response.data);
   }
 });

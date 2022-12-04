@@ -16,9 +16,11 @@ const DiscussionDetailsPage = () => {
   
   useEffect(() => {
     // TODO: cleanup function
+    const controller = new AbortController();
+
     if (!discussionState.list[topic_url]) {
-      handle(retrieveDiscussionByUrl({ topic_url, discussion_url }), {});
-      return;
+      handle(retrieveDiscussionByUrl({ topic_url, discussion_url, signal: controller.signal }), {});
+      return () => controller.abort();
     }
     // retrieve from store & set topic
     for (const discussion of state.discussions.list[topic_url]) {
@@ -32,7 +34,7 @@ const DiscussionDetailsPage = () => {
 
   return (
     <div>
-      { isLoading ? <h1>Loading...</h1> : <DiscussionHeader discussion={ discussionState.current } /> }
+      { isLoading ? <h1>Loading discussion details...</h1> : <DiscussionHeader discussion={ discussionState.current } /> }
       {error && <h1>{error}</h1>}
 
       {/* TODO create edit component */}

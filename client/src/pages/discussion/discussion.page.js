@@ -49,7 +49,7 @@ const Discussions = () => {
     <div>
       <h1>discussions</h1>
       { error && <h1>{ error }</h1> }
-      { isLoading ? <p>loading...</p> : <div>{ result }</div> } 
+      { isLoading ? <p>loading topic discussions...</p> : <div>{ result }</div> } 
      
     </div>
   );

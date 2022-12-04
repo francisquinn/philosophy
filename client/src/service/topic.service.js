@@ -1,8 +1,8 @@
 import http from "./http-common";
 
 class TopicDataService {
-  getALLTopics() {
-    return http.get("/topics");
+  getAllTopics(signal) {
+    return http.get("/topics", { signal: signal });
   }
 
   getTopicByUrl(url) {
